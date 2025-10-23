@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Percy Pixel';
+  src: url('/fonts/Asai-Analogue.ttf') format('truetype');
+}
+
 :root {
   --background: 0,0,0;
   --foreground: 0,255,0;
@@ -24,4 +29,16 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Text entry animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
