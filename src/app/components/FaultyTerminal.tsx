@@ -2,7 +2,7 @@
 
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import React, { useEffect, useRef, useMemo, useCallback } from 'react';
-import './globals.css';
+import '../globals.css';
 
 type Vec2 = [number, number];
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import type { ComponentType } from 'react';
-import Terminal from './FaultyTerminal';
+import Terminal from './components/FaultyTerminal';
 
 const TerminalComponent = Terminal as ComponentType<Record<string, unknown>>;
 
@@ -39,6 +39,7 @@ export default function TerminalWrapper() {
     <div style={{ height: '200vh' }}>
       {/* Hero Section */}
       <div
+      id="home"
         style={{
           width: '100%',
           height: '100vh',
@@ -68,6 +69,7 @@ export default function TerminalWrapper() {
         />
         {/* Dark overlay using darknessOpacity to avoid unused variable */}
         <div
+
           style={{
             position: 'absolute',
             inset: 0,
@@ -101,6 +103,7 @@ export default function TerminalWrapper() {
 
       {/* Projects Section */}
       <div
+        id="projects"
         style={{
           minHeight: '100vh',
           display: 'flex',
