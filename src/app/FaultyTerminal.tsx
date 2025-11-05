@@ -267,23 +267,16 @@ export default function FaultyTerminal({
   ...domProps
 }: FaultyTerminalProps & { searchParams?: Record<string, string | string[] | undefined> }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const programRef = useRef<Program>(null);
-  const rendererRef = useRef<Renderer>(null);
+  const programRef = useRef<Program | null>(null);
+  const rendererRef = useRef<Renderer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const frozenTimeRef = useRef(0);
   const rafRef = useRef<number>(0);
   const loadAnimationStartRef = useRef<number>(0);
   const timeOffsetRef = useRef<number>(0);
-  const dprRef = useRef(1); // Add DPR ref
-
-  useEffect(() => {
-    // Set DPR and random time offset after mount
-    timeOffsetRef.current = Math.random() * 100;
-  }, []);
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
-
   const ditherValue = useMemo(() => (typeof dither === 'boolean' ? (dither ? 1 : 0) : dither), [dither]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -295,22 +288,19 @@ export default function FaultyTerminal({
     mouseRef.current = { x, y };
   }, []);
 
+  // Initialize renderer only once
   useEffect(() => {
     const ctn = containerRef.current;
     if (!ctn) return;
-    console.log('Container reference:', ctn);
-    dprRef.current = Math.min(window.devicePixelRatio || 1, 2);
-    const renderer = new Renderer({ 
-      dpr: dprRef.current, // Use dprRef.current instead of dpr
-    });
-    console.log('Renderer initialized:', renderer);
+
+    timeOffsetRef.current = Math.random() * 100;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const renderer = new Renderer({ dpr });
     rendererRef.current = renderer;
     const gl = renderer.gl;
-    console.log('WebGL context:', gl);
     gl.clearColor(0, 0, 0, 1);
 
     const geometry = new Triangle(gl);
-    console.log('Geometry created:', geometry);
 
     const program = new Program(gl, {
       vertex: vertexShader,
@@ -319,7 +309,6 @@ export default function FaultyTerminal({
         iTime: { value: 0 },
         iResolution: { value: new Float32Array([gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]) },
         uScale: { value: scale },
-
         uGridMul: { value: new Float32Array(gridMul) },
         uDigitSize: { value: digitSize },
         uScanlineIntensity: { value: scanlineIntensity },
@@ -330,9 +319,7 @@ export default function FaultyTerminal({
         uDither: { value: ditherValue },
         uCurvature: { value: curvature },
         uTint: { value: new Color(tintVec[0], tintVec[1], tintVec[2]) },
-        uMouse: {
-          value: new Float32Array([smoothMouseRef.current.x, smoothMouseRef.current.y])
-        },
+        uMouse: { value: new Float32Array([smoothMouseRef.current.x, smoothMouseRef.current.y]) },
         uMouseStrength: { value: mouseStrength },
         uUseMouse: { value: mouseReact ? 1 : 0 },
         uPageLoadProgress: { value: pageLoadAnimation ? 0 : 1 },
@@ -341,9 +328,8 @@ export default function FaultyTerminal({
       }
     });
     programRef.current = program;
-    console.log('Program initialized:', program);
+
     const mesh = new Mesh(gl, { geometry, program });
-    console.log('Mesh created:', mesh);
 
     function resize() {
       if (!ctn || !renderer) return;
@@ -395,9 +381,9 @@ export default function FaultyTerminal({
 
       renderer.render({ scene: mesh });
     };
+    
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
-    console.log('Canvas appended:', gl.canvas);
 
     if (mouseReact) ctn.addEventListener('mousemove', handleMouseMove);
 
@@ -407,29 +393,29 @@ export default function FaultyTerminal({
       if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
-      loadAnimationStartRef.current = 0;
-      timeOffsetRef.current = Math.random() * 100;
     };
-  }, [
-    pause,
-    timeScale,
-    scale,
-    gridMul,
-    digitSize,
-    scanlineIntensity,
-    glitchAmount,
-    flickerAmount,
-    noiseAmp,
-    chromaticAberration,
-    ditherValue,
-    curvature,
-    tintVec,
-    mouseReact,
-    mouseStrength,
-    pageLoadAnimation,
-    brightness,
-    handleMouseMove
-  ]);
+  }, []); // Empty dependency array - only initialize once!
+
+  // Update uniforms when props change
+  useEffect(() => {
+    const program = programRef.current;
+    if (!program) return;
+
+    program.uniforms.uScale.value = scale;
+    program.uniforms.uGridMul.value = new Float32Array(gridMul);
+    program.uniforms.uDigitSize.value = digitSize;
+    program.uniforms.uScanlineIntensity.value = scanlineIntensity;
+    program.uniforms.uGlitchAmount.value = glitchAmount;
+    program.uniforms.uFlickerAmount.value = flickerAmount;
+    program.uniforms.uNoiseAmp.value = noiseAmp;
+    program.uniforms.uChromaticAberration.value = chromaticAberration;
+    program.uniforms.uDither.value = ditherValue;
+    program.uniforms.uCurvature.value = curvature;
+    program.uniforms.uTint.value = new Color(tintVec[0], tintVec[1], tintVec[2]);
+    program.uniforms.uMouseStrength.value = mouseStrength;
+    program.uniforms.uUseMouse.value = mouseReact ? 1 : 0;
+    program.uniforms.uBrightness.value = brightness;
+  }, [scale, gridMul, digitSize, scanlineIntensity, glitchAmount, flickerAmount, noiseAmp, chromaticAberration, ditherValue, curvature, tintVec, mouseStrength, mouseReact, brightness]);
 
   return (
     <div 

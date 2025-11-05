@@ -8,6 +8,10 @@
   --foreground: 0,255,0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: rgb(var(--background));
   color: rgb(var(--foreground));
@@ -41,4 +45,9 @@ canvas {
     opacity: 1;
     transform: translate(-50%, -50%);
   }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
 }
