@@ -12,18 +12,18 @@ export default function NavBar() {
       setScrollY(window.scrollY);
       
       // Detect active section
-      const sections = ['home', 'projects', 'about', 'contact'];
+      const projectsElement = document.getElementById('projects');
       const scrollPosition = window.scrollY + 200;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
+
+      if (projectsElement) {
+        const { offsetTop } = projectsElement;
+        if (scrollPosition < offsetTop) {
+          setActiveSection('home');
+        } else {
+          setActiveSection('projects');
         }
+      } else {
+        setActiveSection('home');
       }
     };
 
@@ -88,7 +88,7 @@ export default function NavBar() {
           return (
             <a
               key={link.id}
-              href={`#${link.id}`}
+              href={link.id === 'home' ? undefined : `#${link.id}`}
               style={{
                 fontFamily: 'Percy Pixel',
                 fontSize: '1rem',
@@ -104,7 +104,9 @@ export default function NavBar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
+                cursor: 'pointer',
               }}
+              onClick={link.id === 'home' ? (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } : undefined}
               onMouseEnter={(e) => {
                 if (activeSection !== link.id) {
                   e.currentTarget.style.color = '#f05555ff';

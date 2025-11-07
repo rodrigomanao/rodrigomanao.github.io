@@ -422,7 +422,8 @@ export default function FaultyTerminal({
       ref={containerRef} 
       className="faulty-terminal-container"
       style={style} 
-      {...domProps} 
-    />
+      {...domProps}
+    >
+    </div>
   );
 }
