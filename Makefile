@@ -2,7 +2,9 @@ IMAGE_NAME=my-portfolio
 CONTAINER_NAME=my-portfolio-container
 PORT=3000
 
-.PHONY: docker-build docker-run docker-cleanup
+.PHONY: all docker-build docker-run docker-cleanup
+
+all: docker-cleanup docker-build docker-run
 
 docker-build:
 	docker build -t $(IMAGE_NAME) .
