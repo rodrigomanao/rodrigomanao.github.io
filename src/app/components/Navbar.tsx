@@ -10,25 +10,51 @@ export default function NavBar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
-      
-      // Detect active section
-      const projectsElement = document.getElementById('projects');
-      const scrollPosition = window.scrollY + 200;
-
-      if (projectsElement) {
-        const { offsetTop } = projectsElement;
-        if (scrollPosition < offsetTop) {
-          setActiveSection('home');
-        } else {
-          setActiveSection('projects');
-        }
-      } else {
-        setActiveSection('home');
-      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = ['projects', 'about'];
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sections.forEach((sectionId) => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    // Handle scrolling to top (home section)
+    const handleHomeDetection = () => {
+      if (window.scrollY < 100) {
+        setActiveSection('home');
+      }
+    };
+
+    window.addEventListener('scroll', handleHomeDetection, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleHomeDetection);
+    };
   }, []);
 
   const navbarVisible = scrollY > 100;
@@ -50,7 +76,6 @@ export default function NavBar() {
         height: '60px',
         backgroundColor: 'rgba(10, 10, 10, 0.95)',
         backdropFilter: 'blur(10px)',
-        boxShadow: '0 0 20px rgba(240, 85, 85, 0.3)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
