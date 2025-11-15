@@ -8,7 +8,6 @@ interface AboutSectionProps {
 
 export default function AboutSection({ scrollY }: AboutSectionProps) {
   const contentOpacity = Math.min(1, Math.max(0, (scrollY - 1000) / 500));
-  const titleText = 'Who am I';
 
   return (
     <div
@@ -57,32 +56,25 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
           }
         `}</style>
         
-        <h2 
-          className="text-5xl md:text-7xl mb-16 font-mono relative"
-          style={{ 
-            fontFamily: 'Percy Pixel', 
-            color: '#f05555ff',
-          }}
-        >
-          {titleText.split('').map((char, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                animation: `bounceScale 1.5s ease-in-out ${i * 0.1}s infinite, glowPulse 2s ease-in-out ${i * 0.12}s infinite`,
-              }}
-            >
-              {char === ' ' ? '\u00A0' : char}
-            </span>
-          ))}
-          <span 
-            className="inline-block w-3 h-8 md:h-12 ml-2 bg-[#f05555ff]"
+        <div className="mb-16 flex items-center">
+          <pre
+            className="text-xs sm:text-sm md:text-base"
             style={{
-              verticalAlign: 'middle',
-              animation: 'cursorBlink2 1s step-end infinite'
+              fontFamily: 'monospace',
+              color: '#f05555ff',
+              lineHeight: '1.1',
+              overflow: 'visible',
             }}
-          ></span>
-        </h2>
+          >
+{`
+__        ___                            ___  
+\\ \\      / / |__   ___    __ _ _ __ ___ |_ _| 
+ \\ \\ /\\ / /| '_ \\ / _ \\  / _\` | '_ \` _ \\ | |  
+  \\ V  V / | | | | (_) || (_| | | | | | || |  
+   \\_/\\_/  |_| |_|\\___/  \\__,_|_| |_| |_|___|
+`}
+          </pre>
+        </div>
         
         {/* Terminal Window */}
         <div 

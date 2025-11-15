@@ -17,7 +17,7 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    const sections = ['projects', 'about'];
+    const sections = ['projects', 'about', 'contact'];
     
     const observerOptions = {
       root: null,

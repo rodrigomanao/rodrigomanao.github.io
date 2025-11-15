@@ -5,6 +5,7 @@ import NavBar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
 import AboutSection from './components/AboutSection';
+import ContactSection from './components/ContactSection';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -37,6 +38,7 @@ export default function Home() {
         <HeroSection scrollY={scrollY} />
         <ProjectsSection scrollY={scrollY} />
         <AboutSection scrollY={scrollY} />
+        <ContactSection scrollY={scrollY} />
       </div>
     </main>
   );

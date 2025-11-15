@@ -11,7 +11,6 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
   const scale = 0.95 + (projectsOpacity * 0.05);
   const contentBlur = Math.max(0, 15 - (projectsOpacity * 15));
 
-  const titleText = 'My Projects';
 
   return (
     <div
@@ -59,32 +58,26 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
           }
         `}</style>
         
-        <h2 
-          className="text-5xl md:text-7xl mb-16 font-mono relative"
-          style={{ 
-            fontFamily: 'Percy Pixel', 
-            color: '#f05555ff',
-          }}
-        >
-          {titleText.split('').map((char, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                animation: `floatWave 3s ease-in-out ${i * 0.1}s infinite, colorPulse 3s ease-in-out ${i * 0.15}s infinite`,
-              }}
-            >
-              {char === ' ' ? '\u00A0' : char}
-            </span>
-          ))}
-          <span 
-            className="inline-block w-3 h-8 md:h-12 ml-2 bg-[#f05555ff]"
+        <div className="mb-16 flex items-center">
+          <pre
+            className="text-xs sm:text-sm md:text-base"
             style={{
-              verticalAlign: 'middle',
-              animation: 'cursorBlink 1.2s step-end infinite'
+              fontFamily: 'monospace',
+              color: '#f05555ff',
+              lineHeight: '1.1',
+              overflow: 'visible',
             }}
-          ></span>
-        </h2>
+          >
+{`
+ __  __         ____            _           _       
+|  \\/  |_   _  |  _ \\ _ __ ___ (_) ___  ___| |_ ___ 
+| |\\/| | | | | | |_) | '__/ _ \\| |/ _ \\/ __| __/ __|
+| |  | | |_| | |  __/| | | (_) | |  __/ (__| |_\\__ \\
+|_|  |_|\\__, | |_|   |_|  \\___/| |\\___|\\___|\\__|___/
+        |___/                |__/                    
+`}
+          </pre>
+        </div>
         
         {/* Project List */}
         <div className="space-y-8">
