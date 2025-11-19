@@ -242,7 +242,7 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
 
             }}
           >
-            Let&apos;s build something amazing together
+            Let&apos;s build something together
           </p>
         </div>
       </div>
