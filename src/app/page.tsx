@@ -1,33 +1,30 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import NavBar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import ProjectsSection from './components/ProjectsSection';
-import AboutSection from './components/AboutSection';
-import ContactSection from './components/ContactSection';
+import NavBar from './components/Navbar/Navbar';
+import HeroSection from './components/HeroSection/HeroSection';
+import ProjectsSection from './components/ProjectsSection/ProjectsSection';
+import AboutSection from './components/AboutSection/AboutSection';
+import ContactSection from './components/ContactSection/ContactSection';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
-  const rafRef = useRef<number | null>(null);
+  const tickingRef = useRef(false);
   
   useEffect(() => {
     const handleScroll = () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
+      if (!tickingRef.current) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          tickingRef.current = false;
+        });
+        tickingRef.current = true;
       }
-      
-      rafRef.current = requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
     };
   }, []);
 

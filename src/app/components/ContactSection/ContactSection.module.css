@@ -1,0 +1,198 @@
+/* ContactSection Styles */
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+  pointer-events: auto;
+  background-color: #070707;
+}
+
+.noiseBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contentWrapper {
+  max-width: 1152px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  transition: all 0.5s;
+}
+
+.asciiArt {
+  margin-bottom: 3.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  color: #f05555ff;
+  line-height: 1.1;
+  overflow: visible;
+  font-size: 1rem;
+}
+
+.contactCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.contactCard {
+  text-decoration: none;
+  position: relative;
+}
+
+.cardInner {
+  position: relative;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(240, 85, 85, 0.1) 0%, rgba(240, 85, 85, 0.05) 100%);
+  border: 2px solid rgba(240, 85, 85, 0.3);
+  animation: float 6s ease-in-out infinite;
+  transition: all 0.5s;
+}
+
+.emailCard .cardInner {
+  animation-delay: 0s;
+}
+
+.githubCard .cardInner {
+  animation-delay: 0.5s;
+}
+
+.linkedinCard .cardInner {
+  animation-delay: 1s;
+}
+
+.glowEffect {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: glow 2s ease-in-out infinite;
+  transition: opacity 0.5s;
+}
+
+.contactCard:hover .glowEffect {
+  opacity: 1;
+}
+
+.cardContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+}
+
+.cardText {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-family: 'Percy Pixel';
+  color: #e0e0e0;
+  letter-spacing: 0.08em;
+}
+
+.footerMessage {
+  text-align: center;
+}
+
+.footerText {
+  font-size: 1.875rem;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+  letter-spacing: 0.08em;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(240, 85, 85, 0.3),
+                0 0 40px rgba(240, 85, 85, 0.2),
+                inset 0 0 20px rgba(240, 85, 85, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(240, 85, 85, 0.5),
+                0 0 80px rgba(240, 85, 85, 0.3),
+                inset 0 0 30px rgba(240, 85, 85, 0.2);
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .contactCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cardTitle {
+    font-size: 2rem;
+  }
+  
+  .cardText {
+    font-size: 1.125rem;
+  }
+  
+  .footerText {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 1rem;
+  }
+  
+  .contactCardsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .asciiArt {
+    font-size: 0.75rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.875rem;
+  }
+  
+  .cardText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .asciiArt {
+    font-size: 0.625rem;
+  }
+  
+  .cardInner {
+    padding: 1.5rem;
+  }
+  
+  .footerText {
+    font-size: 1.25rem;
+  }
+}

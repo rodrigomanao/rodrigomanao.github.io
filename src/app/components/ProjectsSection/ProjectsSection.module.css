@@ -1,0 +1,218 @@
+/* ProjectsSection Styles */
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+  background-color: #010101;
+}
+
+.titleWrapper {
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: 6rem;
+  font-family: 'Percy Pixel';
+  color: #e63b7a;
+  text-shadow: 0 0 20px rgba(230, 59, 122, 0.5);
+}
+
+.noiseBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contentWrapper {
+  max-width: 1152px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.projectsList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.projectCard {
+  border-radius: 30px;
+  background: #020202;
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5), -20px -20px 40px rgba(50, 50, 50, 0.1);
+  padding: 2rem;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: all 0.5s;
+  position: relative;
+}
+
+.projectCard:hover {
+  border-color: rgba(240, 85, 85, 0.3);
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5), -20px -20px 40px rgba(50, 50, 50, 0.1), 0 0 30px rgba(240, 85, 85, 0.1);
+}
+
+.projectNoise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.projectContent {
+  position: relative;
+  z-index: 10;
+}
+
+.projectHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.projectName {
+  font-size: 2.25rem;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+}
+
+.projectType {
+  font-size: 1rem;
+  opacity: 0.6;
+  font-family: 'Percy Pixel';
+  color: #fff;
+  letter-spacing: 0.08em;
+}
+
+.projectDescription {
+  font-size: 1.25rem;
+  line-height: 2.2;
+  margin-bottom: 1rem;
+  font-family: 'Percy Pixel';
+  color: #e0e0e0;
+  letter-spacing: 0.08em;
+}
+
+.projectFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.projectTags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  border: 1px solid #f05555ff;
+  border-radius: 0.25rem;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+}
+
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #f05555ff;
+  border-radius: 0.25rem;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.projectCard:hover .projectLink {
+  opacity: 1;
+}
+
+.projectLink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #f05555ff;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+  z-index: -1;
+}
+
+.projectLink:hover::before {
+  transform: scaleX(1);
+}
+
+.projectLink:hover {
+  color: #000;
+}
+
+.linkText,
+.linkArrow {
+  position: relative;
+  z-index: 10;
+  transition: color 0.3s;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .sectionTitle {
+    font-size: 4rem;
+  }
+  
+  .projectName {
+    font-size: 1.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 3rem;
+  }
+  
+  .projectName {
+    font-size: 1.5rem;
+  }
+  
+  .projectDescription {
+    font-size: 1rem;
+  }
+  
+  .projectFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .projectLink {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectCard {
+    padding: 1.5rem;
+  }
+  
+  .projectHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

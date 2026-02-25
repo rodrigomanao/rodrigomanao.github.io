@@ -1,0 +1,134 @@
+/* Navbar Styles */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  z-index: 1000;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
+.navbar.visible {
+  transform: translateY(0);
+}
+
+.logo {
+  position: absolute;
+  left: 2rem;
+  font-family: 'Percy Pixel';
+  color: #f05555ff;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: #888;
+  text-decoration: none;
+  border: 2px solid transparent;
+  background-color: transparent;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: 'Percy Pixel';
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+
+.navLink:hover {
+  color: #f05555ff;
+  border-color: #f05555ff;
+}
+
+.navLink.active {
+  color: #f05555ff;
+  border-color: #f05555ff;
+  background-color: rgba(240, 85, 85, 0.1);
+  text-shadow: 0 0 5px rgba(240, 85, 85, 0.5);
+}
+
+.navLink svg {
+  width: 18px;
+  height: 18px;
+}
+
+.linkText {
+  font-size: 0.875rem;
+}
+
+.cornerTopRight {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #f05555ff;
+  border-right: 2px solid #f05555ff;
+}
+
+.cornerBottomLeft {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #f05555ff;
+  border-left: 2px solid #f05555ff;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    left: 1rem;
+    font-size: 1.25rem;
+  }
+  
+  .navLinks {
+    gap: 0.75rem;
+  }
+  
+  .linkText {
+    display: none;
+  }
+  
+  .navLink {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navLinks {
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    font-size: 1rem;
+  }
+}
