@@ -1,6 +1,5 @@
 'use client';
 
-import Noise from '../shared/Noise';
 import styles from './ContactSection.module.css';
 
 interface ContactSectionProps {
@@ -12,11 +11,6 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
 
   return (
     <div id="contact" className={styles.section}>
-      {/* Noise Background */}
-      <div className={styles.noiseBackground}>
-        <Noise patternAlpha={8} />
-      </div>
-      
       <div 
         className={styles.contentWrapper}
         style={{
@@ -24,18 +18,8 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
           transform: `translateY(${Math.max(0, 30 - (scrollY - 2000) / 15)}px)`,
         }}
       >
-        {/* ASCII Art Title */}
-        <div className={styles.asciiArt}>
-          <pre className="text-xs sm:text-sm md:text-base">
-{`
-  ____            _             _   
- / ___|___  _ __ | |_ __ _  ___| |_ 
-| |   / _ \\| '_ \\| __/ _\` |/ __| __|
-| |__| (_) | | | | || (_| | (__| |_ 
- \\____\\___/|_| |_|\\__\\__,_|\\___|\\__|
-`}
-          </pre>
-        </div>
+        {/* Section Title */}
+        <h2 className={styles.sectionTitle}>Contacts</h2>
         
         {/* Contact Cards Grid */}
         <div className={styles.contactCardsGrid}>
@@ -45,16 +29,10 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
             className={`${styles.contactCard} ${styles.emailCard}`}
           >
             <div className={styles.cardInner}>
-              {/* Glow effect on hover */}
               <div className={styles.glowEffect}></div>
-              
               <div className={styles.cardContent}>
-                <h3 className={`${styles.cardTitle} text-3xl md:text-4xl`}>
-                  Email
-                </h3>
-                <p className={`${styles.cardText} text-lg md:text-xl`}>
-                  rodrigoalmeidamanao@gmail.com
-                </p>
+                <h3 className={styles.cardTitle}>Email</h3>
+                <p className={styles.cardText}>rodrigoalmeidamanao@gmail.com</p>
               </div>
             </div>
           </a>
@@ -67,16 +45,10 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
             className={`${styles.contactCard} ${styles.githubCard}`}
           >
             <div className={styles.cardInner}>
-              {/* Glow effect on hover */}
               <div className={styles.glowEffect}></div>
-              
               <div className={styles.cardContent}>
-                <h3 className={`${styles.cardTitle} text-3xl md:text-4xl`}>
-                  GitHub
-                </h3>
-                <p className={`${styles.cardText} text-lg md:text-xl`}>
-                  @rodrigomanao
-                </p>
+                <h3 className={styles.cardTitle}>GitHub</h3>
+                <p className={styles.cardText}>@rodrigomanao</p>
               </div>
             </div>
           </a>
@@ -89,16 +61,10 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
             className={`${styles.contactCard} ${styles.linkedinCard}`}
           >
             <div className={styles.cardInner}>
-              {/* Glow effect on hover */}
               <div className={styles.glowEffect}></div>
-              
               <div className={styles.cardContent}>
-                <h3 className={`${styles.cardTitle} text-3xl md:text-4xl`}>
-                  LinkedIn
-                </h3>
-                <p className={`${styles.cardText} text-lg md:text-xl`}>
-                  Rodrigo Manão
-                </p>
+                <h3 className={styles.cardTitle}>LinkedIn</h3>
+                <p className={styles.cardText}>Rodrigo Manão</p>
               </div>
             </div>
           </a>
@@ -106,9 +72,7 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
 
         {/* Footer Message */}
         <div className={styles.footerMessage}>
-          <p className={`${styles.footerText} text-2xl md:text-3xl`}>
-            Let&apos;s build something together
-          </p>
+          <p className={styles.footerText}>Let&apos;s build something together</p>
         </div>
       </div>
     </div>

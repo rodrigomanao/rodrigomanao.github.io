@@ -9,8 +9,8 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ scrollY }: HeroSectionProps) {
-  const heroOpacity = Math.max(0, 1 - scrollY / 600);
-  const darknessOpacity = Math.min(0.7, scrollY / 500);
+  const heroOpacity = Math.max(0, 1 - scrollY / 400);
+  const darknessOpacity = Math.min(0.7, scrollY / 400);
   const gradientOpacity = Math.min(1, scrollY / 300);
   const blurAmount = Math.min(15, scrollY / 120);
   
@@ -19,8 +19,8 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
   const shouldRenderGrainient = scrollY < 1800;
 
   return (
-    <>
-      {/* Grainient Background - Scrolls with page */}
+    <div id="home" className={styles.heroContainer}>
+      {/* Grainient Background */}
       {shouldRenderGrainient && (
         <div
           className={styles.grainientWrapper}
@@ -79,20 +79,16 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
         </div>
       )}
 
-      {/* Hero Section */}
-      <div id="home" className={styles.heroSection}>
-        {/* Text overlay */}
-        <div
-          className={styles.textOverlay}
-          style={{
-            opacity: heroOpacity,
-            display: heroOpacity === 0 ? 'none' : undefined,
-          }}
-        >
-          <h1 className={styles.heroTitle}>Rodrigo Manão</h1>
-          <p className={styles.heroSubtitle}>Portfolio</p>
-        </div>
+      {/* Text overlay */}
+      <div
+        className={styles.textOverlay}
+        style={{
+          opacity: heroOpacity,
+          display: heroOpacity === 0 ? 'none' : undefined,
+        }}
+      >
+        <h1 className={styles.heroTitle}>Rodrigo Manão</h1>
       </div>
-    </>
+    </div>
   );
 }

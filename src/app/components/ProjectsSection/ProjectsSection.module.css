@@ -6,21 +6,27 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 1.5rem 2rem;
   position: relative;
+  z-index: 1;
   background-color: #010101;
 }
 
 .titleWrapper {
   width: 100%;
-  margin-bottom: 4rem;
+  max-width: 1152px;
+  margin-bottom: 2.25rem;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .sectionTitle {
-  font-size: 6rem;
+  font-size: 2.5rem;
   font-family: 'Percy Pixel';
-  color: #e63b7a;
-  text-shadow: 0 0 20px rgba(230, 59, 122, 0.5);
+  color: #C21730;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-align: left;
 }
 
 .noiseBackground {
@@ -40,51 +46,73 @@
 .projectsList {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .projectCard {
-  border-radius: 30px;
+  border-radius: 20px;
   background: #020202;
   box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5), -20px -20px 40px rgba(50, 50, 50, 0.1);
-  padding: 2rem;
+  padding: 2.25rem 1.5rem;
   overflow: hidden;
   border: 1px solid transparent;
   transition: all 0.5s;
   position: relative;
 }
 
-.projectCard:hover {
-  border-color: rgba(240, 85, 85, 0.3);
-  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5), -20px -20px 40px rgba(50, 50, 50, 0.1), 0 0 30px rgba(240, 85, 85, 0.1);
+/* Gradient overlay that slides in on hover */
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 5;
+}
+
+.projectCard:hover .cardOverlay {
+  transform: translateX(0);
 }
 
 .projectNoise {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 2;
 }
 
 .projectContent {
   position: relative;
   z-index: 10;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.projectCard:hover .projectContent {
+  transform: translateX(10px);
 }
 
 .projectHeader {
   display: flex;
   align-items: baseline;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .projectName {
-  font-size: 2.25rem;
+  font-size: 1.25rem;
   font-family: 'Percy Pixel';
-  color: #f05555ff;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .projectType {
-  font-size: 1rem;
+  font-size: 0.75rem;
   opacity: 0.6;
   font-family: 'Percy Pixel';
   color: #fff;
@@ -92,12 +120,12 @@
 }
 
 .projectDescription {
-  font-size: 1.25rem;
-  line-height: 2.2;
-  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
   font-family: 'Percy Pixel';
   color: #e0e0e0;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
 }
 
 .projectFooter {
@@ -113,12 +141,12 @@
 }
 
 .tag {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  border: 1px solid #f05555ff;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
+  border: 1px solid #C21730;
   border-radius: 0.25rem;
   font-family: 'Percy Pixel';
-  color: #f05555ff;
+  color: #C21730;
 }
 
 .projectLink {
@@ -126,26 +154,58 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border: 2px solid #f05555ff;
-  border-radius: 0.25rem;
   position: relative;
   overflow: hidden;
   font-family: 'Percy Pixel';
-  color: #f05555ff;
   text-decoration: none;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+.projectLink::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0.2rem;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 2;
+}
+
+.projectLink:hover::after {
+  transform: scaleX(1);
+}
+
+
+.projectCard:hover .projectName {
+  background: none !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: black !important;
+  color: black !important;
+}
+
+.projectCard:hover .tag {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  font-family: 'Percy Pixel';
+  color: #000;
 }
 
 .projectCard:hover .projectLink {
   opacity: 1;
 }
 
+
 .projectLink::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-color: #f05555ff;
   transform: scaleX(0);
   transition: transform 0.3s;
   transform-origin: left;
@@ -170,11 +230,11 @@
 /* Responsive styles */
 @media (max-width: 1024px) {
   .sectionTitle {
-    font-size: 4rem;
+    font-size: 2.25rem;
   }
   
   .projectName {
-    font-size: 1.875rem;
+    font-size: 1.125rem;
   }
 }
 
@@ -184,15 +244,15 @@
   }
   
   .sectionTitle {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   
   .projectName {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
   
   .projectDescription {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   
   .projectFooter {

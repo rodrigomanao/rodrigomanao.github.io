@@ -1,8 +1,17 @@
 /* HeroSection Styles */
 
-.grainientWrapper {
-  width: 100vw;
+.heroContainer {
+  position: sticky;
+  top: 0;
+  width: 100%;
   height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.grainientWrapper {
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -27,18 +36,14 @@
 
 .gradientOverlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
+  inset: 0;
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    rgba(7, 7, 7, 0.2) 40%,
-    rgba(7, 7, 7, 0.5) 70%,
-    rgba(7, 7, 7, 0.8) 85%,
-    #070707 100%
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.8) 60%,
+    #000000 100%
   );
   transition: opacity 0.2s ease-out;
 }
@@ -58,13 +63,7 @@
   transition: opacity 0.2s ease-out;
 }
 
-.heroSection {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  z-index: 1;
-  pointer-events: none;
-}
+
 
 .textOverlay {
   position: absolute;
@@ -82,14 +81,18 @@
 }
 
 .heroTitle {
-  font-size: 10rem;
+  font-size: 3.5rem;
   margin: 0;
-  margin-bottom: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
 }
 
 .heroSubtitle {
-  font-size: 5rem;
+  font-size: 1.5rem;
   margin: 0;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  display: none;
 }
 
 @keyframes fadeIn {
@@ -104,20 +107,20 @@
 /* Responsive styles */
 @media (max-width: 768px) {
   .heroTitle {
-    font-size: 6rem;
+    font-size: 2.5rem;
   }
   
   .heroSubtitle {
-    font-size: 3rem;
+    font-size: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
   .heroTitle {
-    font-size: 4rem;
+    font-size: 2rem;
   }
   
   .heroSubtitle {
-    font-size: 2rem;
+    font-size: 1rem;
   }
 }

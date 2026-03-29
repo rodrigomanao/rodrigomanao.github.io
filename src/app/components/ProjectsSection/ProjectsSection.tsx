@@ -12,7 +12,7 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
     <div id="projects" className={styles.section}>
       {/* "My Projects" Title */}
       <div className={styles.titleWrapper}>
-        <h2 className={`${styles.sectionTitle} text-6xl md:text-8xl`}>
+        <h2 className={styles.sectionTitle}>
           My Projects
         </h2>
       </div>
@@ -27,21 +27,21 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
         <div className={styles.projectsList}>
           {/* Project 1 */}
           <div className={styles.projectCard}>
-            {/* Noise overlay on card */}
+            <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
             </div>
             
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
-                <span className={`${styles.projectName} text-3xl md:text-4xl`}>
+                <span className={styles.projectName}>
                   &gt; DEIChain
                 </span>
-                <span className={`${styles.projectType} text-sm md:text-base`}>
+                <span className={styles.projectType}>
                   [Blockchain Simulation]
                 </span>
               </div>
-              <p className={`${styles.projectDescription} text-lg md:text-xl`}>
+              <p className={styles.projectDescription}>
                 A blockchain system simulation implemented in C for educational purposes. Features miners, validators, transaction generators, and statistics tracking using shared memory, semaphores, message queues, and named pipes.
               </p>
               
@@ -67,21 +67,21 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
 
           {/* Project 2 */}
           <div className={styles.projectCard}>
-            {/* Noise overlay on card */}
+            <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
             </div>
             
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
-                <span className={`${styles.projectName} text-3xl md:text-4xl`}>
+                <span className={styles.projectName}>
                   &gt; Googol
                 </span>
-                <span className={`${styles.projectType} text-sm md:text-base`}>
+                <span className={styles.projectType}>
                   [Distributed System]
                 </span>
               </div>
-              <p className={`${styles.projectDescription} text-lg md:text-xl`}>
+              <p className={styles.projectDescription}>
                 A distributed web indexing and search system implemented in Java with RMI (Remote Method Invocation). The system consists of multiple components that work coordinately to index web pages and enable efficient searches.
               </p>
               
@@ -107,21 +107,21 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
 
           {/* Project 3 */}
           <div className={styles.projectCard}>
-            {/* Noise overlay on card */}
+            <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
             </div>
             
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
-                <span className={`${styles.projectName} text-3xl md:text-4xl`}>
+                <span className={styles.projectName}>
                   &gt; Project Three
                 </span>
-                <span className={`${styles.projectType} text-sm md:text-base`}>
+                <span className={styles.projectType}>
                   [Game Dev]
                 </span>
               </div>
-              <p className={`${styles.projectDescription} text-lg md:text-xl`}>
+              <p className={styles.projectDescription}>
                 Third project description. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
               </p>
               

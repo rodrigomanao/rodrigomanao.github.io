@@ -31,8 +31,8 @@ export default function Home() {
   return (
     <main>
       <NavBar />
-      <div style={{ position: 'relative' }}>
-        <HeroSection scrollY={scrollY} />
+      <HeroSection scrollY={scrollY} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
         <ProjectsSection scrollY={scrollY} />
         <AboutSection scrollY={scrollY} />
         <ContactSection scrollY={scrollY} />
