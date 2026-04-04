@@ -7,6 +7,7 @@
 @font-face {
   font-family: 'Percy Pixel';
   src: url('/fonts/audiowide.ttf') format('truetype');
+  font-display: swap;
 }
 
 html {

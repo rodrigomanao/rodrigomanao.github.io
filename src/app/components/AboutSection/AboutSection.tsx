@@ -11,8 +11,8 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
   const [showSkills, setShowSkills] = useState(false);
   const contentOpacity = Math.min(1, Math.max(0, (scrollY - 1000) / 500));
 
-  const languages = ['Java', 'C', 'PostgreSQL', 'TypeScript', 'Python'];
-  const technologies = ['React', 'Next.js', 'CSS', 'Docker', 'Git'];
+  const languages = ['Java', 'C', 'C++', 'PostgreSQL', 'TypeScript', 'Python', 'LaTeX', 'Lex'];
+  const technologies = ['React', 'Next.js', 'CSS', 'Docker', 'Git', 'Tailwind'];
 
   return (
     <div id="about" className={styles.section}>
@@ -32,9 +32,11 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
         {/* Glass Container */}
         <div className={styles.glassContainer}>
           {/* Content Area */}
-          <div className={styles.contentArea}>
-            {!showSkills ? (
-              /* Bio Content */
+          <div
+            className={`${styles.contentArea} ${showSkills ? styles.skillsActive : styles.aboutActive}`}
+          >
+            <div className={styles.contentTrack}>
+              {/* Bio Content (About) */}
               <div className={styles.bioContent}>
                 <p className={styles.bioText}>
                   I am a Computer Science and Engineering student with a deep curiosity for understanding how things work, which has been the main reason why I chose this field.
@@ -58,8 +60,8 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                   </div>
                 </div>
               </div>
-            ) : (
-              /* Skills Content */
+
+              {/* Skills Content */}
               <div className={styles.skillsContent}>
                 <div className={styles.skillsCategory}>
                   <h3 className={styles.categoryTitle}>Languages</h3>
@@ -79,7 +81,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                   </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
           
           {/* Single Toggle Button - Bottom Right Corner */}

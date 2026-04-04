@@ -15,8 +15,8 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
   const blurAmount = Math.min(15, scrollY / 120);
   
   // Hide grainient completely after scrolling past hero section
-  const grainientOpacity = Math.max(0, 1 - (scrollY - 800) / 400);
-  const shouldRenderGrainient = scrollY < 1800;
+   const grainientOpacity = Math.max(0, 1 - (scrollY - 800) / 400);
+   const shouldRenderGrainient = scrollY < 1400;
 
   return (
     <div id="home" className={styles.heroContainer}>

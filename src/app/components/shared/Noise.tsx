@@ -24,9 +24,11 @@ const Noise: React.FC<NoiseProps> = ({
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
+    // Use a smaller internal resolution for better performance,
+    // the canvas is scaled up via CSS.
+    const canvasSize = 512;
     let frame = 0;
-    let animationId: number;
-    const canvasSize = 1024;
+    let animationId = 0;
 
     const resize = () => {
       if (!canvas) return;
@@ -51,21 +53,45 @@ const Noise: React.FC<NoiseProps> = ({
       ctx.putImageData(imageData, 0, 0);
     };
 
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      'matchMedia' in window &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const isSafari =
+      typeof navigator !== 'undefined' &&
+      /Safari/.test(navigator.userAgent) &&
+      !/Chrome|Chromium|Android/.test(navigator.userAgent);
+
+    const refreshEvery = isSafari ? patternRefreshInterval * 2 : patternRefreshInterval;
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    // For users who prefer reduced motion, render a single static grain frame
+    // instead of an animated noise texture.
+    if (prefersReducedMotion || isSafari) {
+      drawGrain();
+      return () => {
+        window.removeEventListener('resize', resize);
+      };
+    }
+
     const loop = () => {
-      if (frame % patternRefreshInterval === 0) {
+      if (frame % refreshEvery === 0) {
         drawGrain();
       }
       frame++;
       animationId = window.requestAnimationFrame(loop);
     };
 
-    window.addEventListener('resize', resize);
-    resize();
     loop();
 
     return () => {
       window.removeEventListener('resize', resize);
-      window.cancelAnimationFrame(animationId);
+      if (animationId) {
+        window.cancelAnimationFrame(animationId);
+      }
     };
   }, [patternSize, patternScaleX, patternScaleY, patternRefreshInterval, patternAlpha]);
 

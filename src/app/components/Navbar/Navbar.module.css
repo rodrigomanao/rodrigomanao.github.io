@@ -28,7 +28,11 @@
   position: absolute;
   left: 1.5rem;
   font-family: 'Percy Pixel';
-  color: #ff8647;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   font-size: 1.1rem;
   letter-spacing: 0.1em;
 }

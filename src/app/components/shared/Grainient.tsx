@@ -158,11 +158,34 @@ const Grainient: React.FC<GrainientProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const isSafari =
+      typeof navigator !== 'undefined' &&
+      /Safari/.test(navigator.userAgent) &&
+      !/Chrome|Chromium|Android/.test(navigator.userAgent);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      'matchMedia' in window &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // For users who prefer reduced motion, skip WebGL entirely and
+    // rely on the CSS gradient fallback in the hero.
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const devicePixelRatio =
+      typeof window !== 'undefined' && window.devicePixelRatio
+        ? window.devicePixelRatio
+        : 1;
+
+    const dpr = Math.min(devicePixelRatio, 1.5);
+
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr
     });
 
     const gl = renderer.gl;
@@ -207,25 +230,40 @@ const Grainient: React.FC<GrainientProps> = ({
 
     const mesh = new Mesh(gl, { geometry, program });
 
+    const scaleFactor = isSafari ? 0.7 : 0.85;
+
     const setSize = () => {
       const rect = container.getBoundingClientRect();
       const width = Math.max(1, Math.floor(rect.width));
       const height = Math.max(1, Math.floor(rect.height));
-      renderer.setSize(width, height);
+      // Render at a slightly lower internal resolution to reduce GPU load.
+      const internalWidth = Math.floor(width * scaleFactor);
+      const internalHeight = Math.floor(height * scaleFactor);
+      renderer.setSize(internalWidth, internalHeight);
       const res = (program.uniforms.iResolution as { value: Float32Array }).value;
       res[0] = gl.drawingBufferWidth;
       res[1] = gl.drawingBufferHeight;
     };
 
-    const ro = new ResizeObserver(setSize);
+    const ro = new ResizeObserver(() => {
+      // Use rAF to avoid layout thrash on rapid resizes.
+      requestAnimationFrame(setSize);
+    });
     ro.observe(container);
     setSize();
 
     let raf = 0;
     const t0 = performance.now();
+
+    const targetFrameMs = isSafari ? 1000 / 30 : 1000 / 60;
+    let lastFrameTime = t0;
+
     const loop = (t: number) => {
-      (program.uniforms.iTime as { value: number }).value = (t - t0) * 0.001;
-      renderer.render({ scene: mesh });
+      if (t - lastFrameTime >= targetFrameMs) {
+        (program.uniforms.iTime as { value: number }).value = (t - t0) * 0.001;
+        renderer.render({ scene: mesh });
+        lastFrameTime = t;
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -234,9 +272,13 @@ const Grainient: React.FC<GrainientProps> = ({
       cancelAnimationFrame(raf);
       ro.disconnect();
       try {
-        container.removeChild(canvas);
+        // In some teardown timing cases Safari can already
+        // detach the canvas from the DOM, so guard before removal.
+        if (canvas && canvas.parentNode) {
+          canvas.parentNode.removeChild(canvas);
+        }
       } catch {
-        // Ignore
+        // Ignore DOM removal errors during unmount
       }
     };
   }, [

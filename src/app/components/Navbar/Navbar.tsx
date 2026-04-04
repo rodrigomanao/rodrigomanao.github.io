@@ -25,45 +25,36 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    const sections = ['projects', 'about', 'contact'];
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0
-    };
+    const sectionIds = ['projects', 'about', 'contact'];
 
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
+    // When near the very top, always show Home as active.
+    if (window.scrollY < 100) {
+      setActiveSection('home');
+      return;
+    }
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const viewportCenter = window.innerHeight / 2;
+    let closestId: string | null = null;
+    let closestDistance = Infinity;
 
-    sections.forEach((sectionId) => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        observer.observe(element);
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const sectionCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(sectionCenter - viewportCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestId = id;
       }
     });
 
-    // Handle scrolling to top (home section)
-    const handleHomeDetection = () => {
-      if (window.scrollY < 100) {
-        setActiveSection('home');
-      }
-    };
-
-    window.addEventListener('scroll', handleHomeDetection, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', handleHomeDetection);
-    };
-  }, []);
+    if (closestId) {
+      setActiveSection(closestId);
+    }
+  }, [scrollY]);
 
   const navbarVisible = scrollY > 100;
 
