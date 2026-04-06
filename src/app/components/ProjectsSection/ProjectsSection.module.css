@@ -242,7 +242,7 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 2rem 1rem;
+    padding: 2rem 1.5rem;
   }
   
   .sectionTitle {
@@ -265,6 +265,12 @@
   
   .projectLink {
     opacity: 1;
+  }
+  
+  /* Slightly inset cards on mobile to give breathing room at phone edges */
+  .contentWrapper {
+    max-width: 95%;
+    margin: 0 auto;
   }
 }
 

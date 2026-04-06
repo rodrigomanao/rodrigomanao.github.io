@@ -304,6 +304,29 @@
     padding: 3rem 1rem;
     padding-top: 6rem;
   }
+
+  /* Stack skills categories vertically on mobile instead of side by side */
+  .skillsContent {
+    width: 100%;
+    padding-left: 0;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .skillsCategory {
+    width: 100%;
+  }
+  
+  .infoCards {
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+  
+  .infoCard {
+    min-width: unset;
+    padding: 0.85rem 1.1rem;
+  }
   
   .sectionTitle {
     font-size: 2rem;
@@ -321,12 +344,9 @@
     font-size: 0.9rem;
   }
   
-  .infoCards {
-    flex-direction: column;
-  }
-  
-  .infoCard {
-    min-width: unset;
+  .toggleBtn {
+    bottom: 0.5rem;
+    right: 1.25rem;
   }
 }
 

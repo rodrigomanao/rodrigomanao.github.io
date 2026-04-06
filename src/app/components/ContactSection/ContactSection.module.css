@@ -141,7 +141,10 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
+    /* Bring contacts further up on mobile so the
+       black band at the bottom is out of view */
+    margin-top: -90vh;
   }
   
   .contactCardsGrid {

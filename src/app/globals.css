@@ -286,16 +286,9 @@ canvas {
 
 /* Hero Container Adjustments for Small Screens */
 @media screen and (max-width: 767px) {
-  #home {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  #home > div {
-    margin-top: 0 !important;
-    top: 50% !important;
-  }
+  /* Use component-level styles for hero layout on mobile.
+     Removing earlier global overrides that were shifting hero children
+     and causing the hero to appear visually clipped. */
 }
 
 @media screen and (max-width: 479px) {
@@ -308,11 +301,6 @@ canvas {
   .hero-subtitle {
     font-size: 0.9rem !important;
     line-height: 1.2 !important;
-  }
-
-  #home > div {
-    width: 100% !important;
-    padding: 0 1rem !important;
   }
 }
 
