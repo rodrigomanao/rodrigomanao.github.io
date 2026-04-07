@@ -6,7 +6,8 @@
 
 @font-face {
   font-family: 'Percy Pixel';
-  src: url('/fonts/audiowide.ttf') format('truetype');
+  /* Use basePath-aware path for GitHub Pages (/my-portfolio) */
+  src: url('/my-portfolio/fonts/audiowide.ttf') format('truetype');
   font-display: swap;
 }
 

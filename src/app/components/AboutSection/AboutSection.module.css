@@ -21,7 +21,8 @@
   right: 0;
   height: 200vh;
   z-index: 0;
-  background-image: url('/images/about-bg.png');
+  /* Adjust path for GitHub Pages basePath (/my-portfolio) */
+  background-image: url('/my-portfolio/images/about-bg.png');
   background-size: cover;
   background-position: center;
   transform: rotate(180deg);
