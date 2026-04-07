@@ -229,6 +229,32 @@
   transition: color 0.3s;
 }
 
+/* Active state used for tap selection on mobile */
+.activeCard .cardOverlay {
+  transform: translateX(0);
+}
+
+.activeCard .projectContent {
+  transform: translateX(10px);
+}
+
+.activeCard .projectName {
+  background: none !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: black !important;
+  color: black !important;
+}
+
+.activeCard .tag {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  font-family: 'Percy Pixel';
+  color: #000;
+}
+
 /* Responsive styles */
 @media (max-width: 1024px) {
   .sectionTitle {

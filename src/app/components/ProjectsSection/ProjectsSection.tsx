@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react';
 import Noise from '../shared/Noise';
 import styles from './ProjectsSection.module.css';
 
@@ -8,8 +9,53 @@ interface ProjectsSectionProps {
 }
 
 export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
+  const [activeProject, setActiveProject] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!sectionRef.current) return;
+
+    const updateBounds = () => {
+      if (!sectionRef.current) return;
+      const el = sectionRef.current;
+      // We only care about vertical range to detect leaving the section
+      (sectionRef.current as any)._top = el.offsetTop;
+      (sectionRef.current as any)._height = el.offsetHeight;
+    };
+
+    updateBounds();
+    window.addEventListener('resize', updateBounds);
+    return () => window.removeEventListener('resize', updateBounds);
+  }, []);
+
+  // Clear active card when user scrolls completely outside Projects section
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!sectionRef.current) return;
+
+    const top: number = (sectionRef.current as any)._top ?? sectionRef.current.offsetTop;
+    const height: number = (sectionRef.current as any)._height ?? sectionRef.current.offsetHeight;
+    if (!height) return;
+
+    const bottom = top + height;
+    const viewportTop = scrollY;
+    const viewportBottom = scrollY + window.innerHeight;
+
+    const isAbove = viewportBottom < top;
+    const isBelow = viewportTop > bottom;
+
+    if ((isAbove || isBelow) && activeProject !== null) {
+      setActiveProject(null);
+    }
+  }, [scrollY, activeProject]);
+
+  const handleProjectClick = (index: number) => {
+    setActiveProject(prev => (prev === index ? null : index));
+  };
+
   return (
-    <div id="projects" className={styles.section}>
+    <div id="projects" ref={sectionRef} className={styles.section}>
       {/* "My Projects" Title */}
       <div className={styles.titleWrapper}>
         <h2 className={styles.sectionTitle}>
@@ -26,7 +72,10 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
         {/* Project List */}
         <div className={styles.projectsList}>
           {/* Project 1 */}
-          <div className={styles.projectCard}>
+          <div
+            className={`${styles.projectCard} ${activeProject === 0 ? styles.activeCard : ''}`}
+            onClick={() => handleProjectClick(0)}
+          >
             <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
@@ -66,7 +115,10 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
           </div>
 
           {/* Project 2 */}
-          <div className={styles.projectCard}>
+          <div
+            className={`${styles.projectCard} ${activeProject === 1 ? styles.activeCard : ''}`}
+            onClick={() => handleProjectClick(1)}
+          >
             <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
@@ -106,7 +158,10 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
           </div>
 
           {/* Project 3 */}
-          <div className={styles.projectCard}>
+          <div
+            className={`${styles.projectCard} ${activeProject === 2 ? styles.activeCard : ''}`}
+            onClick={() => handleProjectClick(2)}
+          >
             <div className={styles.cardOverlay}></div>
             <div className={styles.projectNoise}>
               <Noise patternAlpha={8} />
