@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Rodrigo Manão – Portfolio
 
-## Getting Started
+Interactive cyberpunk-themed portfolio built with Next.js and a custom WebGL hero, showcasing my projects and background in Computer Science and Engineering.
 
-First, run the development server:
+Live site: https://rodrigomanao.github.io/my-portfolio/
+
+---
+
+## Stack
+
+- Next.js 16 (App Router, `src/app`)
+- React 19
+- Custom WebGL background using `ogl`
+- Tailwind CSS 4 + CSS Modules
+- GitHub Pages for static hosting
+
+---
+
+## Features
+
+- Animated hero section with WebGL grain / gradient effect
+- Smooth scrolling navigation with active section highlighting
+- "My Projects" section with interactive cards (tap to activate on mobile)
+- "Who am I" section with animated About/Skills toggle
+- Contact section with glassmorphism cards and hover glow
+- Fully responsive layout tuned for desktop and mobile
+
+---
+
+## Running Locally
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build
 
-## Learn More
+This project is configured for static export (used by GitHub Pages).
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The static output is generated in the `out/` directory by Next.js because `output: 'export'` is set in `next.config.mjs`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Deployment (GitHub Pages)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The site is deployed automatically using GitHub Actions:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Workflow: `.github/workflows/pages.yml`
+- On every push to `main`:
+  - Install dependencies
+  - Run `npm run build`
+  - Upload the `out/` folder as the GitHub Pages artifact
+
+GitHub Pages serves the site at:
+
+- `https://rodrigomanao.github.io/my-portfolio/`
+
+Because it is hosted under `/my-portfolio`, the app uses `basePath` and `assetPrefix` in `next.config.mjs` so assets and routes resolve correctly.
+
+---
+
+## Projects Highlighted
+
+- **DEIChain** – Blockchain system simulation in C using shared memory, semaphores, message queues and named pipes.
+- **Googol** – Distributed web indexing and search system in Java using RMI.
+- **Project Three** – Game dev project (Unity / C#).
+
+---
+
+## License
+
+This repository is personal portfolio source code. Feel free to browse and get inspiration, but please do not reuse the design or branding as-is.
