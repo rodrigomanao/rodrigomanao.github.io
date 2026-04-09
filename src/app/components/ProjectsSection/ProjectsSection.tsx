@@ -145,7 +145,7 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
                 </div>
                 
                 <a 
-                  href="#" 
+                  href="https://github.com/rodrigomanao/SD_Project" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={styles.projectLink}
