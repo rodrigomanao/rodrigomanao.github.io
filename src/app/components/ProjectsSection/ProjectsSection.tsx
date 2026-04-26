@@ -170,25 +170,25 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
                 <span className={styles.projectName}>
-                  &gt; Project Three
+                  &gt; PowerUDP 
                 </span>
                 <span className={styles.projectType}>
-                  [Game Dev]
+                  [Communication Networks]
                 </span>
               </div>
               <p className={styles.projectDescription}>
-                Third project description. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                It implements a UDP-based data protocol ("PowerUDP") with optional reliability features, while using a TCP control channel to register clients and distribute configuration updates. Configuration changes are broadcast to all clients via multicast.
               </p>
               
               <div className={styles.projectFooter}>
                 <div className={styles.projectTags}>
-                  <span className={styles.tag}>Unity</span>
-                  <span className={styles.tag}>C#</span>
-                  <span className={styles.tag}>Game</span>
+                  <span className={styles.tag}>Protocols</span>
+                  <span className={styles.tag}>Communication Networks</span>
+                  <span className={styles.tag}>C</span>
                 </div>
                 
                 <a 
-                  href="#" 
+                  href="https://github.com/rodrigomanao/ProjetoRC" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={styles.projectLink}
