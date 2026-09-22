@@ -2,7 +2,7 @@
 
 Interactive cyberpunk-themed portfolio built with Next.js and a custom WebGL hero, showcasing my projects and background in Computer Science and Engineering.
 
-Live site: https://rodrigomanao.github.io/my-portfolio/
+Live site: https://rodrigomanao.github.io/
 
 ---
 
@@ -69,9 +69,8 @@ The site is deployed automatically using GitHub Actions:
 
 GitHub Pages serves the site at:
 
-- `https://rodrigomanao.github.io/my-portfolio/`
+- `https://rodrigomanao.github.io/`
 
-Because it is hosted under `/my-portfolio`, the app uses `basePath` and `assetPrefix` in `next.config.mjs` so assets and routes resolve correctly.
 
 ---
 
