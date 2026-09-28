@@ -11,7 +11,7 @@ all: docker-cleanup docker-build docker-run
 
 # Development mode with volume mounting for hot-reload
 dev: docker-cleanup docker-build
-	docker run --name $(CONTAINER_NAME) -p $(PORT):3000 -v $(PWD):/app -v /app/node_modules $(IMAGE_NAME)
+	docker run --name $(CONTAINER_NAME) -p $(PORT):3000 -v "$(PWD):/app" -v /app/node_modules $(IMAGE_NAME)
 
 # Production mode
 prod: docker-cleanup-prod docker-build-prod docker-run-prod

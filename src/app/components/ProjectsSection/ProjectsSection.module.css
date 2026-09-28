@@ -31,13 +31,6 @@
   text-align: left;
 }
 
-.noiseBackground {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .contentWrapper {
   max-width: 1152px;
   width: 100%;
@@ -77,13 +70,6 @@
 
 .projectCard:hover .cardOverlay {
   transform: translateX(0);
-}
-
-.projectNoise {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
 }
 
 .projectContent {

@@ -1,12 +1,10 @@
-/* ContactSection Styles */
-
 .section {
-  min-height: 10vh;
+  min-height: 48vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 2rem 2rem;
+  padding: 4rem 2rem 3rem;
   margin-top: -70vh;
   position: relative;
   pointer-events: auto;
@@ -20,160 +18,182 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  transition: all 0.5s;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.sectionHeader {
+  margin-bottom: 4rem;
 }
 
 .sectionTitle {
-  font-size: 2.5rem;
+  margin: 0;
+  color: #111;
   font-family: 'Percy Pixel';
-  color: #000;
+  font-size: 2.5rem;
   font-style: italic;
-  letter-spacing: 0.05em;
-  margin-bottom: 2.5rem;
-  text-align: left;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
 }
 
-.contactCardsGrid {
+.contactLinks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 5rem;
-}
-
-.contactCard {
-  text-decoration: none;
   position: relative;
-  cursor: pointer;
-}
-
-.cardInner {
-  position: relative;
-  padding: 2rem;
-  border-radius: 1.1rem;
-  overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(230, 59, 122, 0.16), rgba(255, 134, 71, 0.09));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: rgba(127, 22, 48, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
-
-
-/* accent strip removed for cleaner cards */
-
-.glowEffect {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(248, 155, 41, 0.22), transparent 55%),
-    radial-gradient(circle at 100% 100%, rgba(255, 15, 123, 0.18), transparent 55%);
-  transition: opacity 0.35s ease;
-}
-
-.contactCard:hover .glowEffect {
-  opacity: 1;
-}
-
-.contactCard:hover .cardInner {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-  border-color: rgba(255, 134, 71, 0.75);
-  background:
-    linear-gradient(135deg, rgba(230, 59, 122, 0.22), rgba(255, 134, 71, 0.14));
-}
-
-.cardContent {
+.contactLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
   position: relative;
-  z-index: 10;
-  text-align: center;
+  padding: 0.9rem 1.25rem;
+  color: #111;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
-.cardTitle {
-  font-size: 2.25rem;
-  margin-bottom: 1rem;
-  font-family: 'Percy Pixel';
-  color: white;
+.contactLink + .contactLink {
+  border-left: 1px solid rgba(74, 20, 27, 0.24);
 }
 
-.cardText {
-  font-size: 1.25rem;
-  line-height: 1.6;
+.contactLink:hover,
+.contactLink:focus-visible {
+  color: #e63b7a;
+}
+
+.contactLink:focus-visible {
+  outline: 2px solid #e63b7a;
+  outline-offset: 5px;
+}
+
+.contactLinks:has(.contactLink:first-child:hover) .contactLink:not(:first-child),
+.contactLinks:has(.contactLink:first-child:focus-visible) .contactLink:not(:first-child),
+.contactLinks:has(.contactLink:last-of-type:hover) .contactLink:not(:last-of-type),
+.contactLinks:has(.contactLink:last-of-type:focus-visible) .contactLink:not(:last-of-type) {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+}
+
+.contactLabel {
+  color: rgba(17, 17, 17, 0.62);
   font-family: 'Percy Pixel';
-  color: rgba(224, 224, 224, 0.9);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contactValue {
+  min-width: 0;
+  font-family: 'Percy Pixel';
+  font-size: clamp(0.72rem, 0.95vw, 0.9rem);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.cardHint {
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  color: #111;
+  font-family: 'Percy Pixel';
+  font-size: 0.82rem;
   letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(0.75rem, -50%);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.footerMessage {
-  text-align: center;
+.contactLinks:has(.contactLink:first-child:hover) .cardHint,
+.contactLinks:has(.contactLink:first-child:focus-visible) .cardHint {
+  opacity: 1;
+  transform: translate(0, -50%);
 }
 
-.footerText {
-  font-size: 1.875rem;
+.careerHint {
+  position: absolute;
+  top: 50%;
+  left: 1.5rem;
+  color: #111;
   font-family: 'Percy Pixel';
-  color: black;
+  font-size: 0.82rem;
   letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-0.75rem, -50%);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* (old float/glow/cursor animations removed for a calmer look) */
-
-/* Responsive styles */
-@media (max-width: 1024px) {
-  .contactCardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .cardTitle {
-    font-size: 2rem;
-  }
-  
-  .cardText {
-    font-size: 1.125rem;
-  }
-  
-  .footerText {
-    font-size: 1.5rem;
-  }
+.contactLinks:has(.contactLink:last-of-type:hover) .careerHint,
+.contactLinks:has(.contactLink:last-of-type:focus-visible) .careerHint {
+  opacity: 1;
+  transform: translate(0, -50%);
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 1.5rem 1rem;
-    /* Bring contacts further up on mobile so the
-       black band at the bottom is out of view */
+    min-height: 48vh;
+    padding: 3.25rem 1rem 2.5rem;
     margin-top: -90vh;
   }
-  
-  .contactCardsGrid {
+
+  .sectionHeader {
+    margin-bottom: 3rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.25rem;
+  }
+
+  .contactLinks {
     grid-template-columns: 1fr;
+    padding: 1rem;
   }
-  
-  .asciiArt {
-    font-size: 0.75rem;
+
+  .contactLink {
+    gap: 1rem;
+    padding: 1rem 0;
+    transition: none;
   }
-  
-  .cardTitle {
-    font-size: 1.875rem;
+
+  .contactLink:hover,
+  .contactLink:focus-visible {
+    color: #111;
   }
-  
-  .cardText {
-    font-size: 1rem;
+
+  .contactLinks:has(.contactLink:hover) .contactLink,
+  .contactLinks:has(.contactLink:focus-visible) .contactLink {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .contactLink + .contactLink {
+    border-top: 1px solid rgba(74, 20, 27, 0.24);
+    border-left: 0;
+  }
+
+  .contactValue {
+    font-size: 0.8rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .cardHint,
+  .careerHint {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .asciiArt {
-    font-size: 0.625rem;
-  }
-  
-  .cardInner {
-    padding: 1.5rem;
-  }
-  
-  .footerText {
-    font-size: 1.25rem;
+  .sectionTitle {
+    font-size: 2rem;
   }
 }

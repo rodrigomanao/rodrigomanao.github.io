@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Noise from '../shared/Noise';
 import styles from './ProjectsSection.module.css';
 
 interface ProjectsSectionProps {
@@ -63,11 +62,6 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
         </h2>
       </div>
       
-      {/* Noise Background */}
-      <div className={styles.noiseBackground}>
-        <Noise patternAlpha={8} />
-      </div>
-      
       <div className={styles.contentWrapper}>
         {/* Project List */}
         <div className={styles.projectsList}>
@@ -77,10 +71,6 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
             onClick={() => handleProjectClick(0)}
           >
             <div className={styles.cardOverlay}></div>
-            <div className={styles.projectNoise}>
-              <Noise patternAlpha={8} />
-            </div>
-            
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
                 <span className={styles.projectName}>
@@ -120,10 +110,6 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
             onClick={() => handleProjectClick(1)}
           >
             <div className={styles.cardOverlay}></div>
-            <div className={styles.projectNoise}>
-              <Noise patternAlpha={8} />
-            </div>
-            
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
                 <span className={styles.projectName}>
@@ -163,10 +149,6 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
             onClick={() => handleProjectClick(2)}
           >
             <div className={styles.cardOverlay}></div>
-            <div className={styles.projectNoise}>
-              <Noise patternAlpha={8} />
-            </div>
-            
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
                 <span className={styles.projectName}>
