@@ -44,6 +44,37 @@
   gap: 1rem;
 }
 
+.allProjectsLink {
+  display: flex;
+  width: 100%;
+  max-width: 1152px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 0.75rem 0;
+  color: #C21730;
+  background: linear-gradient(90deg, #C21730, #f89b29, #ff0f7b, #C21730);
+  background-size: 300% 100%;
+  background-clip: text;
+  font-family: 'Percy Pixel';
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: projectGradientFade 4s ease-in-out infinite alternate;
+}
+
+.allProjectsLink:hover,
+.allProjectsLink:focus-visible {
+  color: #f89b29;
+}
+
+.allProjectsLink:focus-visible {
+  outline: 2px solid #f89b29;
+  outline-offset: 5px;
+}
+
 .projectCard {
   border-radius: 20px;
   background: #020202;
@@ -99,11 +130,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+
 .projectType {
   font-size: 0.75rem;
   opacity: 0.6;
   font-family: 'Percy Pixel';
-  color: #fff;
+  color: #b8b8b8;
   letter-spacing: 0.08em;
 }
 
@@ -168,14 +200,6 @@
 }
 
 
-.projectCard:hover .projectName {
-  background: none !important;
-  background-clip: unset !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: black !important;
-  color: black !important;
-}
-
 .projectCard:hover .tag {
   padding: 0.2rem 0.5rem;
   font-size: 0.65rem;
@@ -183,6 +207,12 @@
   border-radius: 0.25rem;
   font-family: 'Percy Pixel';
   color: #000;
+}
+
+.projectCard:hover .projectName {
+  background: none;
+  color: #000;
+  -webkit-text-fill-color: #000;
 }
 
 .projectCard:hover .projectLink {
@@ -230,6 +260,16 @@
   -webkit-background-clip: unset !important;
   -webkit-text-fill-color: black !important;
   color: black !important;
+}
+
+@keyframes projectGradientFade {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 100% 50%;
+  }
 }
 
 .activeCard .tag {

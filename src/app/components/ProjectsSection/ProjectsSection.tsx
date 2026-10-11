@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import styles from './ProjectsSection.module.css';
 
 interface ProjectsSectionProps {
@@ -102,6 +103,7 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
                 </a>
               </div>
             </div>
+
           </div>
 
           {/* Project 2 */}
@@ -152,25 +154,25 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
             <div className={styles.projectContent}>
               <div className={styles.projectHeader}>
                 <span className={styles.projectName}>
-                  &gt; PowerUDP 
+                  &gt; Comp_Project
                 </span>
                 <span className={styles.projectType}>
-                  [Communication Networks]
+                  [Java Compiler Project]
                 </span>
               </div>
               <p className={styles.projectDescription}>
-                It implements a UDP-based data protocol ("PowerUDP") with optional reliability features, while using a TCP control channel to register clients and distribute configuration updates. Configuration changes are broadcast to all clients via multicast.
+                A compiler project that transforms source code into executable output through lexical analysis, parsing, and semantic processing.
               </p>
               
               <div className={styles.projectFooter}>
                 <div className={styles.projectTags}>
-                  <span className={styles.tag}>Protocols</span>
-                  <span className={styles.tag}>Communication Networks</span>
+                  <span className={styles.tag}>Compiler</span>
+                  <span className={styles.tag}>Parsing</span>
                   <span className={styles.tag}>C</span>
                 </div>
                 
                 <a 
-                  href="https://github.com/rodrigomanao/ProjetoRC" 
+                  href="https://github.com/rodrigomanao/Comp_Project" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={styles.projectLink}
@@ -183,6 +185,10 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
           </div>
         </div>
       </div>
+
+      <Link href="/projects" className={styles.allProjectsLink}>
+        <span>View all projects</span>
+      </Link>
     </div>
   );
 }
