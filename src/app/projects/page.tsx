@@ -115,7 +115,6 @@ export default async function ProjectsPage() {
           <span className={styles.navTitle}>All Projects</span>
           <a href="/" className={styles.backLink}>
             <span className={styles.backLinkText}>Back to home</span>
-            <span className={styles.backLinkArrow} aria-hidden="true">→</span>
           </a>
         </nav>
 

@@ -53,19 +53,30 @@
 }
 
 .backLink {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
   justify-self: end;
   margin-right: 1.25rem;
   color: #f89b29;
   text-decoration: none;
 }
 
-.backLinkText,
-.backLinkArrow {
+.backLink::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -0.2rem;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #e63b7a, #ff8647);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.backLinkText {
   display: inline-block;
-  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .backLinkText {
@@ -81,36 +92,9 @@
   -webkit-text-fill-color: transparent;
 }
 
-.backLinkArrow {
-  width: 1rem;
-  color: transparent;
-  background: linear-gradient(90deg, #C21730, #f89b29, #ff0f7b, #C21730);
-  background-size: 300% 100%;
-  background-clip: text;
-  font-family: 'Percy Pixel';
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
-  animation: backLinkGradient 4s ease-in-out infinite alternate;
-  opacity: 0;
-  transform: translateX(-0.5rem);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.backLink:hover .backLinkText,
-.backLink:focus-visible .backLinkText {
-  transform: translateX(-0.2rem);
-}
-
-.backLink:hover .backLinkArrow,
-.backLink:focus-visible .backLinkArrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.backLink:hover,
-.backLink:focus-visible {
-  color: #f89b29;
+.backLink:hover::after,
+.backLink:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .backLink:focus-visible,
