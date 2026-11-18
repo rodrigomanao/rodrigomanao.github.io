@@ -29,7 +29,7 @@ export default function AboutSection() {
               {/* Bio Content (About) */}
               <div className={styles.bioContent} aria-hidden={showSkills}>
                 <p className={styles.bioText}>
-                  I am a Computer Science and Engineering student with a deep curiosity for understanding how things work, which has been the main reason why I chose this field.
+                  I&apos;m currently doing my MSc in Cybersecurity at the University of Coimbra, after a degree in Computer Science and Engineering. A deep curiosity for understanding how things work is what brought me to this field.
                 </p>
                 <p className={styles.bioText}>
                   Since a young age, I&apos;ve always been fascinated by technology and the logic behind systems, and that enthusiasm has grown even stronger throughout my academic journey.
@@ -46,7 +46,7 @@ export default function AboutSection() {
                   </div>
                   <div className={styles.infoCard}>
                     <span className={styles.infoLabel}>Education</span>
-                    <span className={styles.infoValue}>Computer Science @ University of Coimbra</span>
+                    <span className={styles.infoValue}>MSc Cybersecurity @ University of Coimbra</span>
                   </div>
                 </div>
               </div>

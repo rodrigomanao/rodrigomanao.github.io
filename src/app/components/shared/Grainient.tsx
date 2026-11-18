@@ -265,6 +265,13 @@ const Grainient: React.FC<GrainientProps> = ({
     ro.observe(container);
     setSize();
 
+    // Don't spend GPU time while the gradient is scrolled off screen.
+    let onScreen = true;
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+    });
+    io.observe(container);
+
     let raf = 0;
     const t0 = performance.now();
 
@@ -296,7 +303,7 @@ const Grainient: React.FC<GrainientProps> = ({
     };
 
     const loop = (t: number) => {
-      if (t - lastFrameTime >= targetFrameMs) {
+      if (onScreen && t - lastFrameTime >= targetFrameMs) {
         (program.uniforms.iTime as { value: number }).value = (t - t0) * 0.001;
         renderer.render({ scene: mesh });
         lastFrameTime = t;
@@ -312,6 +319,7 @@ const Grainient: React.FC<GrainientProps> = ({
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
       try {
         // In some teardown timing cases Safari can already
         // detach the canvas from the DOM, so guard before removal.

@@ -1,15 +1,22 @@
-/* HeroSection — just the name, over the moving gradient */
+/* HeroSection — just the name, over the moving gradient.
+   The section is taller than the screen: the extra part is where the
+   gradient melts into the black of the Projects section (same transition
+   as the top of /projects). */
 
 .heroContainer {
-  position: sticky;
-  top: 0;
+  --screen: 100vh;
+  position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100svh; /* stable on mobile when the URL bar collapses */
-  min-height: 480px;
-  z-index: 0;
+  height: calc(var(--screen) * 1.32);
+  min-height: 640px;
   overflow: hidden;
-  background: #000;
+  background: #010101;
+}
+
+@supports (height: 100svh) {
+  .heroContainer {
+    --screen: 100svh; /* stable on mobile when the URL bar collapses */
+  }
 }
 
 .grainientWrapper {
@@ -17,13 +24,10 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  transform-origin: 50% 40%;
-  will-change: transform, filter;
 }
 
 .grainientInner {
-  /* the gradient fades up from black on first load
-     (on the inner layer so it never fights the scroll transform) */
+  /* the gradient fades up from black on first load */
   animation: bgIn 1.6s cubic-bezier(0.23, 1, 0.32, 1) both;
   width: 100%;
   height: 100%;
@@ -35,45 +39,43 @@
     #000;
 }
 
-.darkOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: #000;
-  opacity: 0;
+/* keep the WebGL canvas inside the section (global mobile canvas rules force 100vh) */
+.grainientInner canvas {
+  min-height: 0 !important;
+  transform: none !important;
 }
 
-.gradientOverlay {
+/* long, soft melt into the page black, starting well below the name */
+.fade {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.5) 30%,
-    rgba(0, 0, 0, 0.8) 60%,
-    #000 100%
+    transparent 0%,
+    transparent 56%,
+    rgba(1, 1, 1, 0.55) 74%,
+    rgba(1, 1, 1, 0.9) 88%,
+    #010101 100%
   );
 }
 
+/* the name stays centred in the first screen, not in the taller section */
 .textLayer {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--screen);
   z-index: 2;
   display: grid;
   place-items: center;
   padding: 0 1.25rem;
   pointer-events: none;
-}
-
-.textOverlay {
-  text-align: center;
   color: rgba(0, 0, 0, 0.86);
   font-family: 'Percy Pixel';
-  will-change: transform, opacity;
+  text-align: center;
 }
 
 .heroTitle {

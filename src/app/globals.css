@@ -571,10 +571,6 @@ canvas {
     font-size: 1.5rem !important;
   }
 
-  #home {
-    height: auto !important;
-    min-height: 100vh !important;
-  }
 
   .faulty-terminal-container {
     height: 100vh !important;
