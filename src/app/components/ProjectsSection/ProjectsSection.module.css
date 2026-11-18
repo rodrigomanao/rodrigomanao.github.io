@@ -44,14 +44,19 @@
   gap: 1rem;
 }
 
-.allProjectsLink {
-  display: flex;
+.allProjectsWrap {
   width: 100%;
   max-width: 1152px;
-  align-items: center;
+  display: flex;
   justify-content: center;
   margin-top: 2rem;
-  padding: 0.75rem 0;
+}
+
+.allProjectsLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 0.25rem;
   color: #C21730;
   background: linear-gradient(90deg, #C21730, #f89b29, #ff0f7b, #C21730);
   background-size: 300% 100%;
@@ -65,9 +70,29 @@
   animation: projectGradientFade 4s ease-in-out infinite alternate;
 }
 
-.allProjectsLink:hover,
-.allProjectsLink:focus-visible {
-  color: #f89b29;
+/* gradient underline: draws in from the left, leaves to the right */
+.allProjectsLink::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.45rem;
+  height: 1px;
+  background: linear-gradient(90deg, #f89b29, #ff0f7b);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 500ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .allProjectsLink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+.allProjectsLink:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .allProjectsLink:focus-visible {
@@ -82,8 +107,9 @@
   padding: 2.25rem 1.5rem;
   overflow: hidden;
   border: 1px solid transparent;
-  transition: all 0.5s;
   position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Gradient overlay that slides in on hover */
@@ -95,23 +121,43 @@
   height: 100%;
   background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
   transform: translateX(-100%);
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  transition: transform 700ms var(--ease-in-out-strong);
   z-index: 5;
 }
 
-.projectCard:hover .cardOverlay {
-  transform: translateX(0);
+@media (hover: hover) {
+  .projectCard:hover .cardOverlay {
+    transform: translateX(0);
+  }
+  .projectCard:hover .projectContent {
+    transform: translateX(10px);
+  }
+  .projectCard:hover .tag {
+    border-color: #000;
+    color: #000;
+  }
+  .projectCard:hover .projectName {
+    background: none;
+    color: #000;
+    -webkit-text-fill-color: #000;
+  }
+  .projectCard:hover .projectType,
+  .projectCard:hover .projectDescription {
+    color: #111;
+  }
+  .projectCard:hover .projectLink {
+    opacity: 1;
+    transform: none;
+    color: #000;
+  }
 }
 
 .projectContent {
   position: relative;
   z-index: 10;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  transition: transform 700ms var(--ease-out);
 }
 
-.projectCard:hover .projectContent {
-  transform: translateX(10px);
-}
 
 .projectHeader {
   display: flex;
@@ -121,6 +167,8 @@
 }
 
 .projectName {
+  margin: 0;
+  font-weight: 400;
   font-size: 1.25rem;
   font-family: 'Percy Pixel';
   background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
@@ -137,6 +185,7 @@
   font-family: 'Percy Pixel';
   color: #b8b8b8;
   letter-spacing: 0.08em;
+  transition: color 300ms ease;
 }
 
 .projectDescription {
@@ -146,6 +195,7 @@
   font-family: 'Percy Pixel';
   color: #e0e0e0;
   letter-spacing: 0.05em;
+  transition: color 300ms ease;
 }
 
 .projectFooter {
@@ -155,6 +205,9 @@
 }
 
 .projectTags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
@@ -167,6 +220,7 @@
   border-radius: 0.25rem;
   font-family: 'Percy Pixel';
   color: #C21730;
+  transition: color 300ms ease, border-color 300ms ease;
 }
 
 .projectLink {
@@ -178,8 +232,25 @@
   overflow: hidden;
   font-family: 'Percy Pixel';
   text-decoration: none;
+  color: #ff8647;
   opacity: 0;
-  transition: opacity 0.3s;
+  transform: translateX(-6px);
+  transition: opacity 300ms ease, transform 500ms var(--ease-out);
+}
+
+.projectLink:hover .linkArrow {
+  transform: translateX(4px);
+}
+
+.linkArrow {
+  display: inline-block;
+  transition: transform 250ms var(--ease-out) !important;
+}
+
+.projectLink:focus-visible {
+  opacity: 1;
+  outline: 2px solid #ff8647;
+  outline-offset: 3px;
 }
 
 .projectLink::after {
@@ -200,24 +271,6 @@
 }
 
 
-.projectCard:hover .tag {
-  padding: 0.2rem 0.5rem;
-  font-size: 0.65rem;
-  border: 1px solid #000;
-  border-radius: 0.25rem;
-  font-family: 'Percy Pixel';
-  color: #000;
-}
-
-.projectCard:hover .projectName {
-  background: none;
-  color: #000;
-  -webkit-text-fill-color: #000;
-}
-
-.projectCard:hover .projectLink {
-  opacity: 1;
-}
 
 
 .projectLink::before {
@@ -252,6 +305,17 @@
 
 .activeCard .projectContent {
   transform: translateX(10px);
+}
+
+.activeCard .projectLink {
+  opacity: 1;
+  transform: none;
+  color: #000;
+}
+
+.activeCard .projectType,
+.activeCard .projectDescription {
+  color: #111;
 }
 
 .activeCard .projectName {
@@ -317,6 +381,7 @@
   
   .projectLink {
     opacity: 1;
+    transform: none;
   }
   
   /* Slightly inset cards on mobile to give breathing room at phone edges */

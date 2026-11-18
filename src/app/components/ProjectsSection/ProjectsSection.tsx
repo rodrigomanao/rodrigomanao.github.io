@@ -2,193 +2,111 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Reveal from '../shared/Reveal';
 import styles from './ProjectsSection.module.css';
 
-interface ProjectsSectionProps {
-  scrollY: number;
-}
+const PROJECTS = [
+  {
+    name: 'DEIChain',
+    type: 'Blockchain Simulation',
+    description:
+      'A blockchain system simulation implemented in C for educational purposes. Features miners, validators, transaction generators, and statistics tracking using shared memory, semaphores, message queues, and named pipes.',
+    tags: ['C', 'IPC', 'Operation Systems'],
+    url: 'https://github.com/rodrigomanao/Projeto-SO',
+  },
+  {
+    name: 'Googol',
+    type: 'Distributed System',
+    description:
+      'A distributed web indexing and search system implemented in Java with RMI (Remote Method Invocation). The system consists of multiple components that work coordinately to index web pages and enable efficient searches.',
+    tags: ['Java', 'RMI', 'Distributed Systems'],
+    url: 'https://github.com/rodrigomanao/SD_Project',
+  },
+  {
+    name: 'Comp_Project',
+    type: 'Java Compiler Project',
+    description:
+      'A compiler project that transforms source code into executable output through lexical analysis, parsing, and semantic processing.',
+    tags: ['Compiler', 'Parsing', 'C'],
+    url: 'https://github.com/rodrigomanao/Comp_Project',
+  },
+];
 
-export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
+export default function ProjectsSection() {
   const [activeProject, setActiveProject] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
+  // Clear the tapped card once the section leaves the screen
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!sectionRef.current) return;
-
-    const updateBounds = () => {
-      if (!sectionRef.current) return;
-      const el = sectionRef.current;
-      // We only care about vertical range to detect leaving the section
-      (sectionRef.current as any)._top = el.offsetTop;
-      (sectionRef.current as any)._height = el.offsetHeight;
-    };
-
-    updateBounds();
-    window.addEventListener('resize', updateBounds);
-    return () => window.removeEventListener('resize', updateBounds);
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) setActiveProject(null);
+    });
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
-  // Clear active card when user scrolls completely outside Projects section
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!sectionRef.current) return;
-
-    const top: number = (sectionRef.current as any)._top ?? sectionRef.current.offsetTop;
-    const height: number = (sectionRef.current as any)._height ?? sectionRef.current.offsetHeight;
-    if (!height) return;
-
-    const bottom = top + height;
-    const viewportTop = scrollY;
-    const viewportBottom = scrollY + window.innerHeight;
-
-    const isAbove = viewportBottom < top;
-    const isBelow = viewportTop > bottom;
-
-    if ((isAbove || isBelow) && activeProject !== null) {
-      setActiveProject(null);
-    }
-  }, [scrollY, activeProject]);
-
-  const handleProjectClick = (index: number) => {
-    setActiveProject(prev => (prev === index ? null : index));
-  };
+  const toggle = (index: number) => setActiveProject((prev) => (prev === index ? null : index));
 
   return (
-    <div id="projects" ref={sectionRef} className={styles.section}>
-      {/* "My Projects" Title */}
-      <div className={styles.titleWrapper}>
-        <h2 className={styles.sectionTitle}>
-          My Projects
-        </h2>
-      </div>
-      
+    <section id="projects" ref={sectionRef} className={styles.section}>
+      <Reveal className={styles.titleWrapper}>
+        <h2 className={styles.sectionTitle}>My Projects</h2>
+      </Reveal>
+
       <div className={styles.contentWrapper}>
-        {/* Project List */}
         <div className={styles.projectsList}>
-          {/* Project 1 */}
-          <div
-            className={`${styles.projectCard} ${activeProject === 0 ? styles.activeCard : ''}`}
-            onClick={() => handleProjectClick(0)}
-          >
-            <div className={styles.cardOverlay}></div>
-            <div className={styles.projectContent}>
-              <div className={styles.projectHeader}>
-                <span className={styles.projectName}>
-                  &gt; DEIChain
-                </span>
-                <span className={styles.projectType}>
-                  [Blockchain Simulation]
-                </span>
-              </div>
-              <p className={styles.projectDescription}>
-                A blockchain system simulation implemented in C for educational purposes. Features miners, validators, transaction generators, and statistics tracking using shared memory, semaphores, message queues, and named pipes.
-              </p>
-              
-              <div className={styles.projectFooter}>
-                <div className={styles.projectTags}>
-                  <span className={styles.tag}>C</span>
-                  <span className={styles.tag}>IPC</span>
-                  <span className={styles.tag}>Operation Systems</span>
-                </div>
-                
-                <a 
-                  href="https://github.com/rodrigomanao/Projeto-SO" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={styles.projectLink}
-                >
-                  <span className={styles.linkText}>View on GitHub</span>
-                  <span className={styles.linkArrow}>→</span>
-                </a>
-              </div>
-            </div>
+          {PROJECTS.map((p, i) => (
+            <Reveal key={p.name} delay={i * 90} amount={0.25}>
+              <article
+                className={`${styles.projectCard} ${activeProject === i ? styles.activeCard : ''}`}
+                onClick={() => toggle(i)}
+              >
+                <div className={styles.cardOverlay} aria-hidden />
+                <div className={styles.projectContent}>
+                  <div className={styles.projectHeader}>
+                    <h3 className={styles.projectName}>&gt; {p.name}</h3>
+                    <span className={styles.projectType}>[{p.type}]</span>
+                  </div>
+                  <p className={styles.projectDescription}>{p.description}</p>
 
-          </div>
+                  <div className={styles.projectFooter}>
+                    <ul className={styles.projectTags}>
+                      {p.tags.map((t) => (
+                        <li key={t} className={styles.tag}>
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
 
-          {/* Project 2 */}
-          <div
-            className={`${styles.projectCard} ${activeProject === 1 ? styles.activeCard : ''}`}
-            onClick={() => handleProjectClick(1)}
-          >
-            <div className={styles.cardOverlay}></div>
-            <div className={styles.projectContent}>
-              <div className={styles.projectHeader}>
-                <span className={styles.projectName}>
-                  &gt; Googol
-                </span>
-                <span className={styles.projectType}>
-                  [Distributed System]
-                </span>
-              </div>
-              <p className={styles.projectDescription}>
-                A distributed web indexing and search system implemented in Java with RMI (Remote Method Invocation). The system consists of multiple components that work coordinately to index web pages and enable efficient searches.
-              </p>
-              
-              <div className={styles.projectFooter}>
-                <div className={styles.projectTags}>
-                  <span className={styles.tag}>Java</span>
-                  <span className={styles.tag}>RMI</span>
-                  <span className={styles.tag}>Distributed Systems</span>
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.projectLink}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className={styles.linkText}>View on GitHub</span>
+                      <span className={styles.linkArrow} aria-hidden>
+                        →
+                      </span>
+                    </a>
+                  </div>
                 </div>
-                
-                <a 
-                  href="https://github.com/rodrigomanao/SD_Project" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={styles.projectLink}
-                >
-                  <span className={styles.linkText}>View on GitHub</span>
-                  <span className={styles.linkArrow}>→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Project 3 */}
-          <div
-            className={`${styles.projectCard} ${activeProject === 2 ? styles.activeCard : ''}`}
-            onClick={() => handleProjectClick(2)}
-          >
-            <div className={styles.cardOverlay}></div>
-            <div className={styles.projectContent}>
-              <div className={styles.projectHeader}>
-                <span className={styles.projectName}>
-                  &gt; Comp_Project
-                </span>
-                <span className={styles.projectType}>
-                  [Java Compiler Project]
-                </span>
-              </div>
-              <p className={styles.projectDescription}>
-                A compiler project that transforms source code into executable output through lexical analysis, parsing, and semantic processing.
-              </p>
-              
-              <div className={styles.projectFooter}>
-                <div className={styles.projectTags}>
-                  <span className={styles.tag}>Compiler</span>
-                  <span className={styles.tag}>Parsing</span>
-                  <span className={styles.tag}>C</span>
-                </div>
-                
-                <a 
-                  href="https://github.com/rodrigomanao/Comp_Project" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={styles.projectLink}
-                >
-                  <span className={styles.linkText}>View on GitHub</span>
-                  <span className={styles.linkArrow}>→</span>
-                </a>
-              </div>
-            </div>
-          </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </div>
 
-      <Link href="/projects" className={styles.allProjectsLink}>
-        <span>View all projects</span>
-      </Link>
-    </div>
+      {/* No Reveal wrapper here: fading an ancestor of animated gradient text
+          (background-clip: text) can leave it unpainted until hover in some browsers. */}
+      <div className={styles.allProjectsWrap}>
+        <Link href="/projects" className={styles.allProjectsLink}>
+          View all projects
+        </Link>
+      </div>
+    </section>
   );
 }

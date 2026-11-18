@@ -18,7 +18,6 @@
   width: 100%;
   position: relative;
   z-index: 10;
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .sectionHeader {
@@ -55,7 +54,7 @@
   padding: 0.9rem 1.25rem;
   color: #111;
   text-decoration: none;
-  transition: color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+  transition: color 200ms ease, opacity 300ms ease, transform 450ms var(--ease-out);
 }
 
 .contactLink + .contactLink {
@@ -108,7 +107,7 @@
   opacity: 0;
   pointer-events: none;
   transform: translate(0.75rem, -50%);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 250ms ease, transform 400ms var(--ease-out);
 }
 
 .contactLinks:has(.contactLink:first-child:hover) .cardHint,
@@ -128,7 +127,7 @@
   opacity: 0;
   pointer-events: none;
   transform: translate(-0.75rem, -50%);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 250ms ease, transform 400ms var(--ease-out);
 }
 
 .contactLinks:has(.contactLink:last-of-type:hover) .careerHint,

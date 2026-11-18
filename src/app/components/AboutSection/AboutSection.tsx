@@ -1,31 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import Reveal from '../shared/Reveal';
 import styles from './AboutSection.module.css';
 
-interface AboutSectionProps {
-  scrollY: number;
-}
-
-export default function AboutSection({ scrollY }: AboutSectionProps) {
+export default function AboutSection() {
   const [showSkills, setShowSkills] = useState(false);
-  const contentOpacity = Math.min(1, Math.max(0, (scrollY - 1000) / 500));
 
   const languages = ['Java', 'C', 'C++', 'PostgreSQL', 'TypeScript', 'Python', 'LaTeX', 'Lex'];
   const technologies = ['React', 'Next.js', 'CSS', 'Docker', 'Git', 'Tailwind'];
 
   return (
-    <div id="about" className={styles.section}>
+    <section id="about" className={styles.section}>
       {/* Background Image - rotated 180deg */}
       <div className={styles.backgroundImage} />
       
-      <div 
-        className={styles.contentWrapper}
-        style={{
-          opacity: contentOpacity,
-          transform: `translateY(${Math.max(0, 30 - (scrollY - 1000) / 15)}px)`,
-        }}
-      >
+      <Reveal className={styles.contentWrapper} amount={0.15}>
         {/* Section Title - Top Right Corner */}
         <h2 className={styles.sectionTitle}>Who am i</h2>
         
@@ -37,7 +27,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
           >
             <div className={styles.contentTrack}>
               {/* Bio Content (About) */}
-              <div className={styles.bioContent}>
+              <div className={styles.bioContent} aria-hidden={showSkills}>
                 <p className={styles.bioText}>
                   I am a Computer Science and Engineering student with a deep curiosity for understanding how things work, which has been the main reason why I chose this field.
                 </p>
@@ -62,7 +52,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
               </div>
 
               {/* Skills Content */}
-              <div className={styles.skillsContent}>
+              <div className={styles.skillsContent} aria-hidden={!showSkills}>
                 <div className={styles.skillsCategory}>
                   <h3 className={styles.categoryTitle}>Languages</h3>
                   <div className={styles.skillsGrid}>
@@ -85,14 +75,16 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
           </div>
           
           {/* Single Toggle Button - Bottom Right Corner */}
-          <button 
+          <button
+            type="button"
             className={styles.toggleBtn}
             onClick={() => setShowSkills(!showSkills)}
+            aria-pressed={showSkills}
           >
             {showSkills ? 'About' : 'Skills'}
           </button>
         </div>
-      </div>
-    </div>
+      </Reveal>
+    </section>
   );
 }

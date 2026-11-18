@@ -1,28 +1,18 @@
 'use client';
 
+import Reveal from '../shared/Reveal';
 import styles from './ContactSection.module.css';
 
-interface ContactSectionProps {
-  scrollY: number;
-}
-
-export default function ContactSection({ scrollY }: ContactSectionProps) {
-  const contactOpacity = Math.min(1, Math.max(0, (scrollY - 2000) / 500));
+export default function ContactSection() {
 
   return (
-    <div id="contact" className={styles.section}>
-      <div 
-        className={styles.contentWrapper}
-        style={{
-          opacity: contactOpacity,
-          transform: `translateY(${Math.max(0, 30 - (scrollY - 2000) / 15)}px)`,
-        }}
-      >
-        <div className={styles.sectionHeader}>
+    <section id="contact" className={styles.section}>
+      <div className={styles.contentWrapper}>
+        <Reveal className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Contacts</h2>
-        </div>
+        </Reveal>
 
-        <div className={styles.contactLinks}>
+        <Reveal className={styles.contactLinks} delay={120}>
           <a href="mailto:rodrigoalmeidamanao@gmail.com" className={styles.contactLink}>
             <span className={styles.contactLabel}>Email</span>
             <span className={styles.contactValue}>rodrigoalmeidamanao@gmail.com</span>
@@ -35,10 +25,10 @@ export default function ContactSection({ scrollY }: ContactSectionProps) {
             <span className={styles.contactLabel}>LinkedIn</span>
             <span className={styles.contactValue}>Rodrigo Manão</span>
           </a>
-          <span className={styles.cardHint}>Contact me</span>
-          <span className={styles.careerHint}>See my career</span>
-        </div>
+          <span className={styles.cardHint} aria-hidden>Contact me</span>
+          <span className={styles.careerHint} aria-hidden>See my career</span>
+        </Reveal>
       </div>
-    </div>
+    </section>
   );
 }

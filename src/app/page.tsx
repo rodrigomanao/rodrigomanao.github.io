@@ -1,41 +1,20 @@
-'use client';
-
-import { useState, useEffect, useRef } from 'react';
 import NavBar from './components/Navbar/Navbar';
 import HeroSection from './components/HeroSection/HeroSection';
 import ProjectsSection from './components/ProjectsSection/ProjectsSection';
 import AboutSection from './components/AboutSection/AboutSection';
 import ContactSection from './components/ContactSection/ContactSection';
 
+// Scroll-driven effects live inside each section (refs + rAF / IntersectionObserver),
+// so scrolling no longer re-renders the whole page on every frame.
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const tickingRef = useRef(false);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!tickingRef.current) {
-        window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          tickingRef.current = false;
-        });
-        tickingRef.current = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
     <main>
       <NavBar />
-      <HeroSection scrollY={scrollY} />
+      <HeroSection />
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <ProjectsSection scrollY={scrollY} />
-        <AboutSection scrollY={scrollY} />
-        <ContactSection scrollY={scrollY} />
+        <ProjectsSection />
+        <AboutSection />
+        <ContactSection />
       </div>
     </main>
   );

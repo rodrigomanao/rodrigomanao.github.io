@@ -1,0 +1,80 @@
+/* Hero gradient band at the top of /projects, melting into the black page */
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(520px, 82vh, 900px);
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gradient {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 30%;
+  will-change: transform, filter;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* fallback when WebGL is unavailable, same as the hero */
+  background:
+    radial-gradient(circle at top, rgba(255, 134, 71, 0.65) 0%, transparent 55%),
+    radial-gradient(circle at top right, rgba(230, 59, 122, 0.6) 0%, transparent 45%),
+    #000;
+  animation: bandIn 1.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* the Grainient canvas is position:absolute globally; keep it inside the band */
+.inner canvas {
+  min-height: 0 !important;
+  transform: none !important;
+}
+
+.dark {
+  position: absolute;
+  inset: 0;
+  background: #010101;
+  opacity: 0;
+}
+
+/* long, soft fade into the page colour so there is no visible edge */
+.fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 50%,
+    rgba(1, 1, 1, 0.55) 70%,
+    rgba(1, 1, 1, 0.9) 86%,
+    #010101 100%
+  );
+}
+
+@keyframes bandIn {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .backdrop {
+    height: clamp(460px, 72svh, 720px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner {
+    animation: none;
+  }
+}

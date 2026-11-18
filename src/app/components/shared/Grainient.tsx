@@ -2,6 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 
 interface GrainientProps {
+  /** Points to read back, as fractions of the container (0..1, from the top-left). */
+  samplePoints?: () => Array<[number, number]> | null;
+  /** Called a few times per second with the brightness (0..1) under each sample point. */
+  onSample?: (lumas: number[]) => void;
   timeSpeed?: number;
   colorBalance?: number;
   warpStrength?: number;
@@ -151,9 +155,18 @@ const Grainient: React.FC<GrainientProps> = ({
   color1 = '#FF9FFC',
   color2 = '#5227FF',
   color3 = '#B19EEF',
-  className = ''
+  className = '',
+  samplePoints,
+  onSample
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // kept in refs so changing them never restarts the WebGL setup
+  const samplePointsRef = useRef(samplePoints);
+  const onSampleRef = useRef(onSample);
+  useEffect(() => {
+    samplePointsRef.current = samplePoints;
+    onSampleRef.current = onSample;
+  });
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -258,11 +271,39 @@ const Grainient: React.FC<GrainientProps> = ({
     const targetFrameMs = isSafari ? 1000 / 30 : 1000 / 60;
     let lastFrameTime = t0;
 
+    // Brightness read-back. readPixels right after render works without
+    // preserveDrawingBuffer; a tiny 3x3 block is averaged per point.
+    const SAMPLE_EVERY_MS = 160;
+    let lastSample = 0;
+    const px = new Uint8Array(3 * 3 * 4);
+    const sample = () => {
+      const pts = samplePointsRef.current?.();
+      const cb = onSampleRef.current;
+      if (!pts || !cb) return;
+      const w = gl.drawingBufferWidth;
+      const h = gl.drawingBufferHeight;
+      const lumas = pts.map(([fx, fy]) => {
+        const x = Math.min(w - 3, Math.max(0, Math.round(fx * w) - 1));
+        const y = Math.min(h - 3, Math.max(0, Math.round((1 - fy) * h) - 1)); // GL origin is bottom-left
+        gl.readPixels(x, y, 3, 3, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        let sum = 0;
+        for (let i = 0; i < px.length; i += 4) {
+          sum += (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
+        }
+        return sum / 9;
+      });
+      cb(lumas);
+    };
+
     const loop = (t: number) => {
       if (t - lastFrameTime >= targetFrameMs) {
         (program.uniforms.iTime as { value: number }).value = (t - t0) * 0.001;
         renderer.render({ scene: mesh });
         lastFrameTime = t;
+        if (t - lastSample >= SAMPLE_EVERY_MS) {
+          lastSample = t;
+          sample();
+        }
       }
       raf = requestAnimationFrame(loop);
     };

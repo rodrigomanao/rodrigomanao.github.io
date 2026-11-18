@@ -1,4 +1,8 @@
 import type { Metadata } from 'next';
+import NavBar from '../components/Navbar/Navbar';
+import Reveal from '../components/shared/Reveal';
+import ProjectsBackdrop from './ProjectsBackdrop';
+import ProjectsBrowser, { type ProjectItem } from './ProjectsBrowser';
 import styles from './projects.module.css';
 
 interface GitHubRepository {
@@ -47,7 +51,11 @@ async function getRepositories(): Promise<Project[]> {
   const repositories: GitHubRepository[] = await response.json();
 
   const publicRepositories = repositories.filter(
-    repository => !repository.fork && !repository.archived,
+    // skip forks, archived repos and the GitHub profile README repo
+    repository =>
+      !repository.fork &&
+      !repository.archived &&
+      repository.name.toLowerCase() !== 'rodrigomanao',
   );
 
   return Promise.all(
@@ -107,52 +115,43 @@ export default async function ProjectsPage() {
     errorMessage = 'Projects are temporarily unavailable. Please try again later.';
   }
 
-  return (
-    <main className={styles.page}>
-      <div className={styles.wrapper}>
-        <nav className={styles.projectNav} aria-label="Projects navigation">
-          <a href="/" className={styles.logo}>{'<RM/>'}</a>
-          <span className={styles.navTitle}>All Projects</span>
-          <a href="/" className={styles.backLink}>
-            <span className={styles.backLinkText}>Back to home</span>
-          </a>
-        </nav>
+  const items: ProjectItem[] = repositories.map((r) => ({
+    id: r.id,
+    name: r.name,
+    summary: r.summary,
+    url: r.html_url,
+    language: r.language || 'Other',
+    created: formatDate(r.created_at),
+    updated: formatDate(r.updated_at),
+  }));
 
-        {errorMessage ? (
-          <p className={styles.error}>{errorMessage}</p>
-        ) : repositories.length === 0 ? (
-          <p className={styles.empty}>No public projects found.</p>
-        ) : (
-          <div className={styles.repositoryList}>
-            {repositories.map(repository => (
-              <a
-                key={repository.id}
-                href={repository.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.repository}
-              >
-                <span className={styles.cardOverlay} aria-hidden="true" />
-                <div className={styles.repositoryHeader}>
-                  <h2>{repository.name}</h2>
-                </div>
-                <div className={styles.repositoryContent}>
-                  <p>{repository.summary}</p>
-                  <div className={styles.repositoryFooter}>
-                    <div className={styles.repositoryMeta}>
-                      <span>{repository.language || 'Various'}</span>
-                      <span>Created {formatDate(repository.created_at)}</span>
-                      <span>Updated {formatDate(repository.updated_at)}</span>
-                    </div>
-                    <span className={styles.viewLabel}>View on GitHub →</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+  return (
+    <>
+      <NavBar page="projects" />
+      <main className={styles.page}>
+        <ProjectsBackdrop />
+        <div className={styles.wrapper}>
+          <header className={styles.header}>
+            <Reveal delay={150}>
+              <h1 className={styles.title}>All Projects</h1>
+            </Reveal>
+            <Reveal delay={220}>
+              <p className={styles.lede}>
+                Everything public on my GitHub, most recently updated first. Click one to open it.
+              </p>
+            </Reveal>
+          </header>
+
+          {errorMessage ? (
+            <p className={styles.error}>{errorMessage}</p>
+          ) : items.length === 0 ? (
+            <p className={styles.empty}>No public projects found.</p>
+          ) : (
+            <ProjectsBrowser projects={items} />
+          )}
+        </div>
+      </main>
+    </>
   );
 }
 
